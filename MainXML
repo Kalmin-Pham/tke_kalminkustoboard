@@ -3,7 +3,7 @@
   "id": "40e8bded-e837-4149-a8f0-43a3b4cf8900",
   "eTag": "068c8171-fb26-4f63-b039-4c6bb3116d47",
   "schema_version": "49",
-  "title": "Kalmin Kustoboard",
+  "title": "Kalmin Kustoboard - dashboard for kusto queries",
   "baseQueries": [
     {
       "id": "215ab200-acdc-4b0d-bad5-6261e7df04b8",
