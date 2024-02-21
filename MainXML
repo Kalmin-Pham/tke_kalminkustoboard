@@ -1,7 +1,7 @@
 {
   "$schema": "https://dataexplorer.azure.com/static/d/schema/49/dashboard.json",
   "id": "40e8bded-e837-4149-a8f0-43a3b4cf8900",
-  "eTag": "068c8171-fb26-4f63-b039-4c6bb3116d47",
+  "eTag": "e751a670-4699-49e6-9681-ac6c357c4bcc",
   "schema_version": "49",
   "title": "Kalmin Kustoboard",
   "baseQueries": [
@@ -3984,7 +3984,7 @@
     },
     {
       "id": "3d7cfc5c-e689-4b9f-aa28-b6ec96ea8834",
-      "title": "Check Javis SQL result",
+      "title": "Check DAMS script result (run SQL script to database)",
       "description": "",
       "visualType": "table",
       "pageId": "407aa955-24cc-49ad-9624-1fb1840a460a",
@@ -5425,6 +5425,10 @@
     {
       "name": "Javis",
       "id": "407aa955-24cc-49ad-9624-1fb1840a460a"
+    },
+    {
+      "name": "Links & Tools",
+      "id": "0728c15b-7dc1-4bb5-9f8d-98e242d326cd"
     }
   ]
 }
