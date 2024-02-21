@@ -1,2 +1,2 @@
 # tke_kalminkustoboard
-Kustoboard Project
+Kusto dashboard Project for onboarding engineers
