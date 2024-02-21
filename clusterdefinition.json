@@ -36,3 +36,4 @@
     "cluster12":"cluster("https://fdislandsae.uaenorth.kusto.windows.net").database("CAPAnalytics")"
   }
 }
+ 
