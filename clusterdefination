@@ -1,1 +1,38 @@
-{$Clusterdefination:
+{"$Clusterdefination":"https://dataexplorer.azure.com/dashboards/40e8bded-e837-4149-a8f0-43a3b4cf8900?p-_startTime=6hours&p-_endTime=now&p-domainname=v-https%3A%2F%2Forg6447338e.crm6.dynamics.com%2F&p-orgid=all&p-envid=all&p-geo=all&p-ticketid=all&p-interval=v-15m&p-corrid=all&p-Data+source+%28DB+cluster%29=CRMAnalytics#bcea7fec-63eb-4c0f-a4fc-54d7fbf8b8f0",
+  {
+    "cluster1":"cluster("https://fdislandsas.southeastasia.kusto.windows.net").database("CAPAnalytics")"
+  },
+  {
+    "cluster2":"cluster("https://fdislandsau.australiaeast.kusto.windows.net").database("CAPAnalytics")"
+  },
+  {
+    "cluster3":"cluster("https://fdislandseu.westeurope.kusto.windows.net").database("CAPAnalytics")"
+  },
+  {
+    "cluster4":"cluster("https://fdislandsus.centralus.kusto.windows.net").database("CAPAnalytics")"
+  },
+  {
+    "cluster5":"cluster("https://fdislandsbr.brazilsouth.kusto.windows.net").database("CAPAnalytics")"
+  },
+  {
+    "cluster6":"cluster("https://fdislandsin.centralindia.kusto.windows.net").database("CAPAnalytics")"
+  },
+  {
+    "cluster7":"cluster("https://fdislandsfr.francecentral.kusto.windows.net").database("CAPAnalytics")"
+  },
+  {
+    "cluster8":"cluster("https://fdislandsjp.japaneast.kusto.windows.net").database("CAPAnalytics")"
+  },
+  {
+    "cluster9":"cluster("https://fdislandsuk.uksouth.kusto.windows.net").database("CAPAnalytics")"
+  },
+  {
+    "cluster10":"cluster("https://fdislandsza.southafricanorth.kusto.windows.net").database("CAPAnalytics")"
+  },
+  {
+    "cluster11":"cluster("https://fdislandsde.germanywestcentral.kusto.windows.net").database("CAPAnalytics")"
+  },
+  {
+    "cluster12":"cluster("https://fdislandsae.uaenorth.kusto.windows.net").database("CAPAnalytics")"
+  }
+}
