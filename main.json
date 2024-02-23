@@ -1,7 +1,7 @@
 {
   "$schema": "https://dataexplorer.azure.com/static/d/schema/49/dashboard.json",
   "id": "40e8bded-e837-4149-a8f0-43a3b4cf8900",
-  "eTag": "e751a670-4699-49e6-9681-ac6c357c4bcc",
+  "eTag": "a45a1565-bb9d-4b1c-91c6-13edccf76fe1",
   "schema_version": "49",
   "title": "Kalmin Kustoboard",
   "baseQueries": [
@@ -11,7 +11,7 @@
         "kind": "inline",
         "dataSourceId": "5bd9fbcb-4e26-41b9-84d7-335352f64c6a"
       },
-      "text": "union \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrgId == orgid or isempty(orgid)\n| where Geo == geo or isempty(geo)\n| where BAPEnvironmentId == envid or isempty(envid)\n| extend URL = case(\nGeo=='NA', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| where DomainName == domainname or URL startswith domainname or URL startswith substring(domainname, 0, indexof(domainname, \".com\") + 4) or isempty(domainname)\n| project OrgId\n| take 1",
+      "text": "union \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrgId == orgid or isempty(orgid)\n| where Geo == geo or isempty(geo)\n| where BAPEnvironmentId == envid or isempty(envid)\n| extend URL = case(\nGeo=='NA', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nGeo=='GBR', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| where DomainName == domainname or URL startswith domainname or URL startswith substring(domainname, 0, indexof(domainname, \".com\") + 4) or isempty(domainname)\n| project OrgId\n| take 1",
       "usedVariables": [
         "_endTime",
         "_startTime",
@@ -28,7 +28,7 @@
         "kind": "inline",
         "dataSourceId": "6eb828fd-1b60-4408-bf0f-6b10719211b8"
       },
-      "text": "union \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrgId == orgid or isempty(orgid)\n| where Geo == geo or isempty(geo)\n| where BAPEnvironmentId == envid or isempty(envid)\n| extend URL = case(\nGeo=='NA', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| where DomainName == domainname or URL startswith domainname or URL startswith substring(domainname, 0, indexof(domainname, \".com\") + 4) or isempty(domainname)\n| project OrgId\n| take 1",
+      "text": "union \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrgId == orgid or isempty(orgid)\n| where Geo == geo or isempty(geo)\n| where BAPEnvironmentId == envid or isempty(envid)\n| extend URL = case(\nGeo=='NA', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nGeo=='GBR', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| where DomainName == domainname or URL startswith domainname or URL startswith substring(domainname, 0, indexof(domainname, \".com\") + 4) or isempty(domainname)\n| project OrgId\n| take 1",
       "usedVariables": [
         "_endTime",
         "_startTime",
@@ -43,7 +43,7 @@
   "tiles": [
     {
       "id": "bfdf870f-0df3-497a-bc41-45fecef4dee3",
-      "title": "Support orgs",
+      "title": "Support orgs - local",
       "description": "",
       "visualType": "table",
       "pageId": "bcea7fec-63eb-4c0f-a4fc-54d7fbf8b8f0",
@@ -66,7 +66,7 @@
           "orgid",
           "ticketid"
         ],
-        "text": "//Retrieve support org\nlet clltenantid = (\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TIMESTAMP > ago(1d)\n| where OrgId == orgid or isempty(orgid)\n| extend URL = case(\nGeo=='NA', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| where DomainName == domainname or URL startswith domainname or URL startswith substring(domainname, 0, indexof(domainname, \".com\") + 4) or isempty(domainname)\n| where Geo == geo or isempty(geo)\n| where BAPEnvironmentId == envid or isempty(envid)\n| project TenantId, UniqueName\n| take 1\n);\nlet cllfriendlyname = (\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where OrgId == orgid or isempty(orgid)\n| extend URL = case(\nGeo=='NAM', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| where DomainName == domainname or URL startswith domainname or URL startswith substring(domainname, 0, indexof(domainname, \".com\") + 4) or isempty(domainname)\n| where Geo == geo or isempty(geo)\n| project UniqueName\n| take 1\n);\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TenantId in (clltenantid)\n| where Type == 10\n| where FriendlyName contains ticketid or isempty(ticketid)\n| where FriendlyName has_any (cllfriendlyname)\n| extend URL = case(\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| extend Extend_link = strcat('https://unify-pme.services.dynamics.com/CRM/Environment/ExtendTrialEnvironment?environmentName=',BAPEnvironmentId,'&tenantId=',TenantId)\n| project Geo, Datacenter, DomainName, URL, OrgId, EnvironmentID = BAPEnvironmentId, UniqueName, FriendlyName, Status = case(OrgStatus == 1, \"Enabled\", OrgStatus == 0, \"Disabled\", OrgStatus == 2, \"Pending\", OrgStatus == 3, \"Failed\", \"Maintenance\"), CreatedOn, ExpiryDate, Extend_link\n| summarize ExpiryDate=max(ExpiryDate) by Geo, DomainName, URL, Status, OrgId, UniqueName, EnvironmentID, FriendlyName, CreatedOn, Extend_link\n| project Geo, DomainName, URL, Status, OrgId, UniqueName, EnvironmentID, FriendlyName, CreatedOn, ExpiryDate, Extend_link\n| order by CreatedOn desc  \n\n"
+        "text": "//Retrieve support org\nlet clltenantid = (\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TIMESTAMP > ago(1d)\n| where OrgId == orgid or isempty(orgid)\n| extend URL = case(\nGeo=='NA', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nGeo=='GBR', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| where DomainName == domainname or URL startswith domainname or URL startswith substring(domainname, 0, indexof(domainname, \".com\") + 4) or isempty(domainname)\n| where Geo == geo or isempty(geo)\n| where BAPEnvironmentId == envid or isempty(envid)\n| project TenantId, UniqueName\n| take 1\n);\nlet cllfriendlyname = (\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where OrgId == orgid or isempty(orgid)\n| extend URL = case(\nGeo=='NAM', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nGeo=='GBR', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| where DomainName == domainname or URL startswith domainname or URL startswith substring(domainname, 0, indexof(domainname, \".com\") + 4) or isempty(domainname)\n| where Geo == geo or isempty(geo)\n| project UniqueName\n| take 1\n);\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TenantId in (clltenantid)\n| where Type == 10\n| where FriendlyName contains ticketid or isempty(ticketid)\n| where FriendlyName has_any (cllfriendlyname)\n| extend URL = case(\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nGeo=='GBR', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| extend Extend_link = strcat('https://unify-pme.services.dynamics.com/CRM/Environment/ExtendTrialEnvironment?environmentName=',BAPEnvironmentId,'&tenantId=',TenantId)\n| project Geo, Datacenter, DomainName, URL, OrgId, EnvironmentID = BAPEnvironmentId, UniqueName, FriendlyName, Status = case(OrgStatus == 1, \"Enabled\", OrgStatus == 0, \"Disabled\", OrgStatus == 2, \"Pending\", OrgStatus == 3, \"Failed\", \"Maintenance\"), CreatedOn, ExpiryDate, Extend_link\n| summarize ExpiryDate=max(ExpiryDate) by Geo, DomainName, URL, Status, OrgId, UniqueName, EnvironmentID, FriendlyName, CreatedOn, Extend_link\n| project Geo, DomainName, URL, Status, OrgId, UniqueName, EnvironmentID, FriendlyName, CreatedOn, ExpiryDate, Extend_link\n| order by CreatedOn desc  \n\n"
       },
       "visualOptions": {
         "table__enableRenderLinks": true,
@@ -122,7 +122,7 @@
           "geo",
           "orgid"
         ],
-        "text": "let clltenant = (\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrgId == orgid or isempty(orgid)\n| extend URL = case(\nGeo=='NA', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| where DomainName == domainname or URL startswith domainname or URL startswith substring(domainname, 0, indexof(domainname, \".com\") + 4) or isempty(domainname)\n| where Geo == geo or isempty(geo)\n| where BAPEnvironmentId == envid or isempty(envid)\n| project TenantId\n| take 1\n);\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TIMESTAMP between (_startTime.._endTime)\n| where TenantId in (clltenant)\n| extend URL = case(\nGeo=='NA', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| summarize DisabledOn=max(DisabledOn), ExpiryDate=max(ExpiryDate) by Geo, DomainName, URL, OrgId, BAPEnvironmentId, UniqueName, SecurityGroupGUID, FriendlyName, Type, OrgStatus, IsMultiGeo, IsCDS, StateChangeReason\n| project Geo, DomainName, URL, OrgId, OrgType = case(Type == 0, \"Production\", Type == 4, \"Production\", Type == 11, \"Email Trial\", Type == 5, \"Sandbox\", Type == 6, \"Sandbox\", Type == 10, \"Support instance\", Type == 12, \"Default\", Type == 13, \"Developer\", Type == 14, \"Trial\", Type == 15, \"Teams\", \"NA\"\n), EnvironmentID = BAPEnvironmentId, UniqueName, SecurityGroupGUID, FriendlyName, Status = case(OrgStatus == 1, \"Enabled\", OrgStatus == 0, \"Disabled\", OrgStatus == 2, \"Pending\", OrgStatus == 3, \"Failed\", \"Maintenance\"), IsMultiGeo, IsCDS, StateChangeReason, DisabledDate=iff(DisabledOn>ExpiryDate,DisabledOn,ExpiryDate)"
+        "text": "let clltenant = (\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrgId == orgid or isempty(orgid)\n| extend URL = case(\nGeo=='NA', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nGeo=='GBR', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| where DomainName == domainname or URL startswith domainname or URL startswith substring(domainname, 0, indexof(domainname, \".com\") + 4) or isempty(domainname)\n| where Geo == geo or isempty(geo)\n| where BAPEnvironmentId == envid or isempty(envid)\n| project TenantId\n| take 1\n);\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TIMESTAMP between (_startTime.._endTime)\n| where TenantId in (clltenant)\n| extend URL = case(\nGeo=='NA', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nGeo=='GBR', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| summarize DisabledOn=max(DisabledOn), ExpiryDate=max(ExpiryDate) by Geo, DomainName, URL, OrgId, BAPEnvironmentId, UniqueName, SecurityGroupGUID, FriendlyName, Type, OrgStatus, IsMultiGeo, IsCDS, StateChangeReason\n| project Geo, DomainName, URL, OrgId, OrgType = case(Type == 0, \"Production\", Type == 4, \"Production\", Type == 11, \"Email Trial\", Type == 5, \"Sandbox\", Type == 6, \"Sandbox\", Type == 10, \"Support instance\", Type == 12, \"Default\", Type == 13, \"Developer\", Type == 14, \"Trial\", Type == 15, \"Teams\", \"NA\"\n), EnvironmentID = BAPEnvironmentId, UniqueName, SecurityGroupGUID, FriendlyName, Status = case(OrgStatus == 1, \"Enabled\", OrgStatus == 0, \"Disabled\", OrgStatus == 2, \"Pending\", OrgStatus == 3, \"Failed\", \"Maintenance\"), IsMultiGeo, IsCDS, StateChangeReason, DisabledDate=iff(DisabledOn>ExpiryDate,DisabledOn,ExpiryDate)"
       },
       "visualOptions": {
         "table__enableRenderLinks": true,
@@ -149,8 +149,8 @@
     },
     {
       "id": "a68c3c07-30c4-4e21-8b51-5e968746bea0",
-      "title": "Count by HTTP status",
-      "description": "",
+      "title": "Count by HTTP status - local",
+      "description": "Require:\n- Organization ID\n\nFilter:\n- System user ID\n- Agent name: Client who called the API\n- Request ID = Client request ID or Client session ID\n- Request string",
       "visualType": "table",
       "pageId": "78e7ef7f-d006-4d23-9c47-356937db5550",
       "layout": {
@@ -171,9 +171,10 @@
           "_startTime",
           "agentid",
           "agentname",
-          "reqid"
+          "reqid",
+          "requeststring"
         ],
-        "text": "let cllgetorginfo = (\n['Retrieve org id']\n);\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").WebRequestStatistics,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").WebRequestStatistics\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrganizationId in (cllgetorginfo)\n| where SystemUserId contains agentid or isempty(agentid)\n| where UserAgent contains agentname or isempty(agentname)\n| where * contains reqid or isempty(reqid)\n| extend StatusCode_Meaning = case(\nHttpStatus=='100 Continue', 'The server has received the request headers, and the client should proceed to send the request body',\nHttpStatus=='101 Switching Protocols', 'The server has agreed to switch protocols as requested by the client',\nHttpStatus=='102 Processing', 'The server is still processing the request',\nHttpStatus=='200 OK', 'The request was successful, and the server has returned the requested data',\nHttpStatus=='201 Created', 'The request was successful, and a new resource was created as a result',\nHttpStatus=='204 No Content', 'The server successfully processed the request but is not returning any content',\nHttpStatus=='206 Partial Content', 'The server is delivering only part of the resource due to a range header sent by the client',\nHttpStatus=='300 Multiple Choices', 'Indicates multiple options for the resource from which the client may choose',\nHttpStatus=='301 Moved Permanently', 'Tells the client that the resource has been permanently moved to another location',\nHttpStatus=='302 Found', 'Tells the client that the resource has been temporary moved to another location',\nHttpStatus=='304 Not Modified', 'Indicates that the resource has not been modified since the last request',\nHttpStatus=='307 Temporary Redirect', 'Tells the client that the resource has been temporary moved to another location, but it does not allow the HTTP method to change',\nHttpStatus=='308 Permanent Redirect', 'The request and all future requests should be repeated using another URI',\nHttpStatus=='400 Bad Request', 'Indicates that the server cannot or will not process the request due to a client error',\nHttpStatus=='401 Unauthorized', 'Requires authentication. The request lacks valid authentication credentials',\nHttpStatus=='403 Forbidden', 'The server understood the request, but it refuses to authorize it',\nHttpStatus=='404 Not Found', 'The server cannot find the requested resource',\nHttpStatus=='405 Method Not Allowed', 'The method specified in the request is not allowed for the resource identified by the request URI',\nHttpStatus=='412 Precondition Failed', 'Access to the target resource of this conditional request has been denied. The condition defined by the If-Unmodified-Since or If-None-Match headers is not fulfilled.',\nHttpStatus=='429', 'Too many request, the user has sent too many requests in a given amount of time and the request exceed the API limitation',\nHttpStatus=='500 Internal Server Error', 'A generic error message indicating that an unexpected condition was encountered by the server',\nHttpStatus=='501 Not Implemented', 'The server either does not recognize the request method or lacks the ability to fulfill the request',\nHttpStatus=='503 Service Unavailable', 'The server is not ready to handle the request. Common causes are a server that is down for maintenance or is overloaded',\nHttpStatus=='504 Gateway Timeout', 'The server did not receive a timely response from the upstream server or some other auxiliary server it needed to access in order to complete the request',\nHttpStatus=='505 HTTP Version Not Supported', 'The server does not support the HTTP protocol version that was used in the request',\n'NA')\n| summarize Count=count() by HttpStatus, StatusCode_Meaning\n| project HttpStatus, Count, StatusCode_Meaning\n| order by Count desc "
+        "text": "let cllgetorginfo = (\n['Retrieve org id']\n);\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").WebRequestStatistics,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").WebRequestStatistics\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrganizationId in (cllgetorginfo)\n| where SystemUserId contains agentid or isempty(agentid)\n| where UserAgent contains agentname or isempty(agentname)\n| where * contains reqid or isempty(reqid)\n| where Request has requeststring or isempty(requeststring)\n| extend StatusCode_Meaning = case(\nHttpStatus=='100 Continue', 'The server has received the request headers, and the client should proceed to send the request body',\nHttpStatus=='101 Switching Protocols', 'The server has agreed to switch protocols as requested by the client',\nHttpStatus=='102 Processing', 'The server is still processing the request',\nHttpStatus=='200 OK', 'The request was successful, and the server has returned the requested data',\nHttpStatus=='201 Created', 'The request was successful, and a new resource was created as a result',\nHttpStatus=='204 No Content', 'The server successfully processed the request but is not returning any content',\nHttpStatus=='206 Partial Content', 'The server is delivering only part of the resource due to a range header sent by the client',\nHttpStatus=='300 Multiple Choices', 'Indicates multiple options for the resource from which the client may choose',\nHttpStatus=='301 Moved Permanently', 'Tells the client that the resource has been permanently moved to another location',\nHttpStatus=='302 Found', 'Tells the client that the resource has been temporary moved to another location',\nHttpStatus=='304 Not Modified', 'Indicates that the resource has not been modified since the last request',\nHttpStatus=='307 Temporary Redirect', 'Tells the client that the resource has been temporary moved to another location, but it does not allow the HTTP method to change',\nHttpStatus=='308 Permanent Redirect', 'The request and all future requests should be repeated using another URI',\nHttpStatus=='400 Bad Request', 'Indicates that the server cannot or will not process the request due to a client error',\nHttpStatus=='401 Unauthorized', 'Requires authentication. The request lacks valid authentication credentials',\nHttpStatus=='403 Forbidden', 'The server understood the request, but it refuses to authorize it',\nHttpStatus=='404 Not Found', 'The server cannot find the requested resource',\nHttpStatus=='405 Method Not Allowed', 'The method specified in the request is not allowed for the resource identified by the request URI',\nHttpStatus=='412 Precondition Failed', 'Access to the target resource of this conditional request has been denied. The condition defined by the If-Unmodified-Since or If-None-Match headers is not fulfilled.',\nHttpStatus=='429', 'Too many request, the user has sent too many requests in a given amount of time and the request exceed the API limitation',\nHttpStatus=='500 Internal Server Error', 'A generic error message indicating that an unexpected condition was encountered by the server',\nHttpStatus=='501 Not Implemented', 'The server either does not recognize the request method or lacks the ability to fulfill the request',\nHttpStatus=='503 Service Unavailable', 'The server is not ready to handle the request. Common causes are a server that is down for maintenance or is overloaded',\nHttpStatus=='504 Gateway Timeout', 'The server did not receive a timely response from the upstream server or some other auxiliary server it needed to access in order to complete the request',\nHttpStatus=='505 HTTP Version Not Supported', 'The server does not support the HTTP protocol version that was used in the request',\n'NA')\n| summarize Count=count() by HttpStatus, StatusCode_Meaning\n| project HttpStatus, Count, StatusCode_Meaning\n| order by Count desc "
       },
       "visualOptions": {
         "table__enableRenderLinks": true,
@@ -201,8 +202,8 @@
     },
     {
       "id": "53d7f41e-0736-4754-9ffd-8b1f07777a59",
-      "title": "Total count",
-      "description": "Require:\n- Organization ID\n\nFilter:\n- System user ID\n- Agent name: Client who called the API\n- Request ID = Client request ID or Client session ID",
+      "title": "Total count - local",
+      "description": "Require:\n- Organization ID\n\nFilter:\n- System user ID\n- Agent name: Client who called the API\n- Request ID = Client request ID or Client session ID\n- Request string",
       "visualType": "markdown",
       "pageId": "78e7ef7f-d006-4d23-9c47-356937db5550",
       "layout": {
@@ -223,9 +224,10 @@
           "_startTime",
           "agentid",
           "agentname",
-          "reqid"
+          "reqid",
+          "requeststring"
         ],
-        "text": "let formatnumber = (input:long){\nlet number = tostring(input);\nlet lennum1 = strlen(number);\nlet lennum = toint(lennum1);\ncase(\nlennum > 3 and lennum < 7, strcat(substring(number,0,lennum-3),',',substring(number,lennum-3,3)), //xxx,xxx\nlennum > 6 and lennum < 10, strcat(substring(number,0,lennum-6),',',substring(number,lennum-6,3),',',substring(number,lennum-3,3)), //xxx,xxx,xxx\nlennum > 9 and lennum < 13, strcat(substring(number,0,lennum-9),',',substring(number,lennum-9,3),',',substring(number,lennum-6,3),',',substring(number,lennum-3,3)), //xxx,xxx,xxx,xxx\nlennum > 12 and lennum < 16, strcat(substring(number,0,lennum-12),',',substring(number,lennum-12,3),',',substring(number,lennum-9,3),',',substring(number,lennum-6,3),',',substring(number,lennum-3,3)), //xxx,xxx,xxx,xxx,xxx\nlennum > 15 and lennum < 19, strcat(substring(number,0,lennum-15),',',substring(number,lennum-15,3),',',substring(number,lennum-12,3),',',substring(number,lennum-9,3),',',substring(number,lennum-6,3),',',substring(number,lennum-3,3)), //xxx,xxx,xxx,xxx,xxx,xxx\nnumber)\n};\nlet cllgetorginfo = (\n    ['Retrieve org id']\n);\nlet que1 = (\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").WebRequestStatistics,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").WebRequestStatistics\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrganizationId in (cllgetorginfo)\n| where SystemUserId contains agentid or isempty(agentid)\n| where UserAgent contains agentname or isempty(agentname)\n| where * contains reqid or isempty(reqid)\n| summarize TotalCount=count(), Success = countif(HttpStatus startswith '2' or HttpStatus startswith '3'), Redirection = countif(HttpStatus startswith '3'), Failure = countif(HttpStatus startswith '4' or HttpStatus startswith '5'), ClientError = countif(HttpStatus startswith '4'), ServerError = countif(HttpStatus startswith '5')\n| project TotalCount,Success,Redirection,Failure,ClientError,ServerError,merge=1\n);\nlet que2 = (\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").ThrottlingUsage,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").ThrottlingUsage\n| where TIMESTAMP between (_startTime .. _endTime)\n| where organizationId in (cllgetorginfo)\n| where userId contains agentid or isempty(agentid)\n| where throttled == 1 and enabled == 1\n| summarize Throttled_call = count()\n| project Throttled_call, merge=1\n);\nque2\n| join kind=inner que1 on merge\n| project Details = strcat(\n'**Total requests**: ', formatnumber(TotalCount), \n'\\n\\n**Success requests**: ', formatnumber(Success),\n'\\n\\n**Redirection requests**: ', formatnumber(Redirection),\n'\\n\\n**Failures**: ', formatnumber(Failure),\n'\\n\\n**Client Error**: ', formatnumber(ClientError),\n'\\n\\n**Server Error**: ', formatnumber(ServerError),\n'\\n\\n**Throttled requests**: ', formatnumber(Throttled_call)\n)"
+        "text": "let formatnumber = (input:long){\nlet number = tostring(input);\nlet lennum1 = strlen(number);\nlet lennum = toint(lennum1);\ncase(\nlennum > 3 and lennum < 7, strcat(substring(number,0,lennum-3),',',substring(number,lennum-3,3)), //xxx,xxx\nlennum > 6 and lennum < 10, strcat(substring(number,0,lennum-6),',',substring(number,lennum-6,3),',',substring(number,lennum-3,3)), //xxx,xxx,xxx\nlennum > 9 and lennum < 13, strcat(substring(number,0,lennum-9),',',substring(number,lennum-9,3),',',substring(number,lennum-6,3),',',substring(number,lennum-3,3)), //xxx,xxx,xxx,xxx\nlennum > 12 and lennum < 16, strcat(substring(number,0,lennum-12),',',substring(number,lennum-12,3),',',substring(number,lennum-9,3),',',substring(number,lennum-6,3),',',substring(number,lennum-3,3)), //xxx,xxx,xxx,xxx,xxx\nlennum > 15 and lennum < 19, strcat(substring(number,0,lennum-15),',',substring(number,lennum-15,3),',',substring(number,lennum-12,3),',',substring(number,lennum-9,3),',',substring(number,lennum-6,3),',',substring(number,lennum-3,3)), //xxx,xxx,xxx,xxx,xxx,xxx\nnumber)\n};\nlet cllgetorginfo = (\n    ['Retrieve org id']\n);\nlet que1 = (\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").WebRequestStatistics,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").WebRequestStatistics\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrganizationId in (cllgetorginfo)\n| where SystemUserId contains agentid or isempty(agentid)\n| where UserAgent contains agentname or isempty(agentname)\n| where Request has requeststring or isempty(requeststring)\n| where * contains reqid or isempty(reqid)\n| summarize TotalCount=count(), Success = countif(HttpStatus startswith '2' or HttpStatus startswith '3'), Redirection = countif(HttpStatus startswith '3'), Failure = countif(HttpStatus startswith '4' or HttpStatus startswith '5'), ClientError = countif(HttpStatus startswith '4'), ServerError = countif(HttpStatus startswith '5')\n| project TotalCount,Success,Redirection,Failure,ClientError,ServerError,merge=1\n);\nlet que2 = (\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").ThrottlingUsage,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").ThrottlingUsage\n| where TIMESTAMP between (_startTime .. _endTime)\n| where organizationId in (cllgetorginfo)\n| where userId contains agentid or isempty(agentid)\n| where throttled == 1 and enabled == 1\n| summarize Throttled_call = count()\n| project Throttled_call, merge=1\n);\nque2\n| join kind=inner que1 on merge\n| project Details = strcat(\n'**Total requests**: ', formatnumber(TotalCount), \n'\\n\\n**Success requests**: ', formatnumber(Success),\n'\\n\\n**Redirection requests**: ', formatnumber(Redirection),\n'\\n\\n**Failures**: ', formatnumber(Failure),\n'\\n\\n**Client Error**: ', formatnumber(ClientError),\n'\\n\\n**Server Error**: ', formatnumber(ServerError),\n'\\n\\n**Throttled requests**: ', formatnumber(Throttled_call)\n)"
       },
       "visualOptions": {
         "xColumn": null
@@ -233,7 +235,7 @@
     },
     {
       "id": "1871dbe4-fcf6-4dbb-8c97-7cef5d77beb3",
-      "title": "API server details",
+      "title": "API server details - local",
       "description": "",
       "visualType": "markdown",
       "pageId": "78e7ef7f-d006-4d23-9c47-356937db5550",
@@ -616,7 +618,7 @@
     },
     {
       "id": "01d60c47-4b0c-41f7-9fc1-dea6d2574eff",
-      "title": "Find correlation ID from activity ID",
+      "title": "Find correlation ID from activity ID - local",
       "description": "Require:\n- Activity ID",
       "visualType": "table",
       "pageId": "78e7ef7f-d006-4d23-9c47-356937db5550",
@@ -681,7 +683,7 @@
           "_startTime",
           "tablename"
         ],
-        "text": "let TableTypeNameMapping = dynamic(\n{\n    \"AuditBase\" : \"Log\",\n    \"PluginTraceLogBase\" : \"Log\",\n    \"RibbonClientMetadataBase\" : \"File\",\n    \"WebResourceBase\" : \"File\",\n    \"AnnotationBase\" : \"File\",\n    \"Attachment\" : \"File\",\n    \"AsyncOperation\" : \"File\",\n    \"Mailbox\" : \"File\",\n    \"Solution\" : \"File\",\n    \"Microsoft.Athena.TrickleFeedService-Analytics\" : \"File\",\n    \"account-Analytics\" : \"File\",\n    \"activityparty-Analytics\" : \"File\",\n    \"annotation-Analytics\" : \"File\",\n    \"businessunit-Analytics\" : \"File\",\n    \"connection-Analytics\" : \"File\",\n    \"connectionrole-Analytics\" : \"File\",\n    \"contact-Analytics\" : \"File\",\n    \"email-Analytics\" : \"File\",\n    \"lead-Analytics\" : \"File\",\n    \"metric-Analytics\" : \"File\",\n    \"opportunity-Analytics\" : \"File\",\n    \"organization-Analytics\" : \"File\"\n});\nlet cllgetorginfo = (\n['Retrieve org id']\n);\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrgTableSizes,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrgTableSizes\n| where OrganizationId in (cllgetorginfo)\n| where TIMESTAMP between (_startTime.._endTime)\n| where TableName has tablename or isempty(tablename)\n| extend cvttablename = tostring(TableName)\n| extend Tabletype = case(tostring(TableTypeNameMapping[cvttablename]) == \"File\", \"File\",\n                        tostring(TableTypeNameMapping[cvttablename]) == \"Log\", \"Log\",\n                        \"Database\")\n| summarize TableSizeInPages=max(TableSizeInPages), TIMESTAMP=max(TIMESTAMP), NumberOfRows=max(NumberOfRows), IndexSizeInPages=max(IndexSizeInPages), DataSizeInPages=max(DataSizeInPages), FreeSpaceInPages=max(FreeSpaceInPages) by TableName, Tabletype, IsCustomEntity\n| project TIMESTAMP, TableName, IsCustomEntity, Tabletype,\n          NumberOfRows, \n          TableSizeMb = TableSizeInPages * 8.0 / 1024.0, \n          IndexSizeMb = IndexSizeInPages * 8.0 / 1024.0,  \n          DataSizeMb = (DataSizeInPages) * 8.0 / 1024.0,\n          FreeSizeMb = FreeSpaceInPages * 8.0 / 1024.0\n|order by TableSizeMb desc"
+        "text": "let TableTypeNameMapping = dynamic(\n{\n    \"AuditBase\" : \"Log\",\n    \"PluginTraceLogBase\" : \"Log\",\n    \"RibbonClientMetadataBase\" : \"File\",\n    \"WebResourceBase\" : \"File\",\n    \"AnnotationBase\" : \"File\",\n    \"Attachment\" : \"File\",\n    \"AsyncOperation\" : \"File\",\n    \"Mailbox\" : \"File\",\n    \"Solution\" : \"File\",\n    \"Microsoft.Athena.TrickleFeedService-Analytics\" : \"File\",\n    \"account-Analytics\" : \"File\",\n    \"activityparty-Analytics\" : \"File\",\n    \"annotation-Analytics\" : \"File\",\n    \"businessunit-Analytics\" : \"File\",\n    \"connection-Analytics\" : \"File\",\n    \"connectionrole-Analytics\" : \"File\",\n    \"contact-Analytics\" : \"File\",\n    \"email-Analytics\" : \"File\",\n    \"lead-Analytics\" : \"File\",\n    \"metric-Analytics\" : \"File\",\n    \"opportunity-Analytics\" : \"File\",\n    \"organization-Analytics\" : \"File\"\n});\nlet cllgetorginfo = (\n['Retrieve org id']\n);\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrgTableSizes,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrgTableSizes\n| where OrganizationId in (cllgetorginfo)\n| where TIMESTAMP between (_startTime.._endTime)\n| where TableName contains tablename or isempty(tablename)\n| extend cvttablename = tostring(TableName)\n| extend Tabletype = case(tostring(TableTypeNameMapping[cvttablename]) == \"File\", \"File\",\n                        tostring(TableTypeNameMapping[cvttablename]) == \"Log\", \"Log\",\n                        \"Database\")\n| summarize TableSizeInPages=max(TableSizeInPages), TIMESTAMP=max(TIMESTAMP), NumberOfRows=max(NumberOfRows), IndexSizeInPages=max(IndexSizeInPages), DataSizeInPages=max(DataSizeInPages), FreeSpaceInPages=max(FreeSpaceInPages) by TableName, Tabletype, IsCustomEntity\n| project TIMESTAMP, TableName, IsCustomEntity, Tabletype,\n          NumberOfRows, \n          TableSizeMb = TableSizeInPages * 8.0 / 1024.0, \n          IndexSizeMb = IndexSizeInPages * 8.0 / 1024.0,  \n          DataSizeMb = (DataSizeInPages) * 8.0 / 1024.0,\n          FreeSizeMb = FreeSpaceInPages * 8.0 / 1024.0\n|order by TableSizeMb desc"
       },
       "visualOptions": {
         "table__enableRenderLinks": true,
@@ -1190,7 +1192,7 @@
     },
     {
       "id": "5f70daee-5905-4f95-80e8-c96d2897551d",
-      "title": "Execution count",
+      "title": "Execution count - local",
       "description": "Require:\n- Organization ID\n\nFilter:\n- Plugin type name",
       "visualType": "markdown",
       "pageId": "dbcf039f-c0dd-4c0c-bf5c-89878274083f",
@@ -1547,7 +1549,7 @@
     },
     {
       "id": "3b22372f-f806-4d1d-a103-7d23664c6535",
-      "title": "DB Tier info",
+      "title": "DB Tier info - local",
       "description": "",
       "visualType": "table",
       "pageId": "583abcd3-b159-482f-9f8a-349b013b7ceb",
@@ -1794,7 +1796,7 @@
     },
     {
       "id": "484aaf23-1773-4113-8224-f7764957b530",
-      "title": "Installed solution",
+      "title": "Installed solution - local",
       "description": "Require:\n- Organization ID\n\nFilter:\n- Solution name\n- Solution ID",
       "visualType": "table",
       "pageId": "502b52c7-822a-4aa0-92b6-dd65a8e2ec36",
@@ -1907,7 +1909,7 @@
     },
     {
       "id": "befbfc84-f8e2-4bff-a56b-eda50235ddeb",
-      "title": "Find component",
+      "title": "Find component - local",
       "description": "Require:\n- Organization ID\n\nFilter:\n- Solution name\n- Solution ID\n- Object ID\n- Component name\n- Component type name\n- Component type code",
       "visualType": "table",
       "pageId": "502b52c7-822a-4aa0-92b6-dd65a8e2ec36",
@@ -1956,7 +1958,7 @@
     },
     {
       "id": "2b32bb40-2651-401e-a235-48e95a33561d",
-      "title": "Dependency",
+      "title": "Dependency - local",
       "description": "Require:\n- Organization ID\n\nFilter:\n- Object ID = component id",
       "visualType": "table",
       "pageId": "502b52c7-822a-4aa0-92b6-dd65a8e2ec36",
@@ -2170,7 +2172,7 @@
     },
     {
       "id": "c06d9222-a09c-4bed-81fd-794472949cd2",
-      "title": "FCBs",
+      "title": "FCBs - local",
       "description": "",
       "visualType": "table",
       "pageId": "bcea7fec-63eb-4c0f-a4fc-54d7fbf8b8f0",
@@ -2194,7 +2196,7 @@
           "geo",
           "orgid"
         ],
-        "text": "let cllorg = (\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrgId == orgid or isempty(orgid)\n| extend URL = case(\nGeo=='NA', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| where DomainName == domainname or URL startswith domainname or URL startswith substring(domainname, 0, indexof(domainname, \".com\") + 4) or isempty(domainname)\n| where Geo == geo or isempty(geo)\n| where BAPEnvironmentId == envid or isempty(envid)\n| project ScaleGroupId\n| take 1\n);\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").FeatureControlSettings,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").FeatureControlSettings\n| where ScopeId in (cllorg)\n| summarize ModifiedOn=max(ModifiedOn) by Name, Enabled, id, CreatedOn, ['FCB Scope']\n| project Name, Enabled, id, CreatedOn, ModifiedOn, ['FCB Scope']"
+        "text": "let cllorg = (\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrgId == orgid or isempty(orgid)\n| extend URL = case(\nGeo=='NA', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nGeo=='GBR', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| where DomainName == domainname or URL startswith domainname or URL startswith substring(domainname, 0, indexof(domainname, \".com\") + 4) or isempty(domainname)\n| where Geo == geo or isempty(geo)\n| where BAPEnvironmentId == envid or isempty(envid)\n| project ScaleGroupId\n| take 1\n);\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").FeatureControlSettings,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").FeatureControlSettings\n| where ScopeId in (cllorg)\n| summarize ModifiedOn=max(ModifiedOn) by Name, Enabled, id, CreatedOn, ['FCB Scope']\n| project Name, Enabled, id, CreatedOn, ModifiedOn, ['FCB Scope']"
       },
       "visualOptions": {
         "table__enableRenderLinks": true,
@@ -2240,7 +2242,7 @@
     },
     {
       "id": "6790d8bd-e72e-4cf7-8025-6e2c2cc9d52a",
-      "title": "Metadata layer",
+      "title": "Metadata layer - local",
       "description": "Require:\n- Organization ID\n\nFilter:\n- Component name = any type of component name\n- Object ID = component id",
       "visualType": "table",
       "pageId": "502b52c7-822a-4aa0-92b6-dd65a8e2ec36",
@@ -3007,7 +3009,7 @@
     },
     {
       "id": "241dfcc7-44c3-406e-ad8c-d80e96dadc25",
-      "title": "Find query ID (queryhash/requestid/sqltext)",
+      "title": "Find query ID (queryhash/requestid/sqltext) - local",
       "description": "",
       "visualType": "table",
       "pageId": "a1fef0b8-1711-489f-b2db-02e556089f6b",
@@ -3197,7 +3199,7 @@
     },
     {
       "id": "7558ff0c-bd3e-446f-8779-dfebbd198273",
-      "title": "System users",
+      "title": "System users - local",
       "description": "",
       "visualType": "table",
       "pageId": "bcea7fec-63eb-4c0f-a4fc-54d7fbf8b8f0",
@@ -3307,7 +3309,7 @@
     },
     {
       "id": "d217a34c-df09-4779-a5f0-de5e44e040c4",
-      "title": "Slow query caused by SQL app lock",
+      "title": "Slow query caused by SQL app lock - local",
       "description": "",
       "visualType": "table",
       "pageId": "a1fef0b8-1711-489f-b2db-02e556089f6b",
@@ -3352,7 +3354,7 @@
     },
     {
       "id": "31afe609-e81c-485f-be8a-2289ed9e8155",
-      "title": "App lock trend",
+      "title": "App lock trend - local",
       "description": "Require:\n- Organization ID\n\nFilter:\n- Applock entity",
       "visualType": "timechart",
       "pageId": "a1fef0b8-1711-489f-b2db-02e556089f6b",
@@ -3462,7 +3464,7 @@
     },
     {
       "id": "1d680c18-cb2a-44a2-88c7-44916528a7c0",
-      "title": "Organization details",
+      "title": "Organization details - local",
       "description": "",
       "visualType": "markdown",
       "pageId": "bcea7fec-63eb-4c0f-a4fc-54d7fbf8b8f0",
@@ -3486,7 +3488,7 @@
           "geo",
           "orgid"
         ],
-        "text": "//Retrieve org Info\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrgId == orgid or isempty(orgid)\n| where Geo == geo or isempty(geo)\n| where BAPEnvironmentId == envid or isempty(envid)\n| extend URL = case(\nGeo=='NA', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| where DomainName == domainname or URL startswith domainname or URL startswith substring(domainname, 0, indexof(domainname, \".com\") + 4) or isempty(domainname)\n| extend Version = strcat(tostring(MajorVersion),'.',tostring(MinorVersion),'.',tostring(BuildNumber),'.',tostring(Revision))\n| extend OrgType = case(Type == 0, \"Production\", Type == 4, \"Production\", Type == 5, \"Sandbox\", Type == 11, \"Email Trial\", Type == 6, \"Sandbox\", Type == 10, \"Support instance\", Type == 12, \"Default\", Type == 13, \"Developer\", Type == 14, \"Trial\", Type == 15, \"Teams\", \"NA\"\n)\n| extend Status = case(OrgStatus == 1, \"Enabled\", OrgStatus == 0, \"Disabled\", OrgStatus == 2, \"Pending\", OrgStatus == 3, \"Failed\", \"Maintenance\")\n// | project Geo, Datacenter, , , , , , , , , , , IsMultiGeo, IsCDS, UserCount, ScaleGroupId, SqlServerName, DatabaseName, Max_backup_time=BackupRetentionInDays, Version, FnoUrl, WavesEnabled\n| take 1\n| project Details = strcat(\n'**Tenant Id**: ', TenantId, \n'\\n\\n**Organization Id**: ', OrgId, \n'\\n\\n**UniqueName**: ', UniqueName,\n'\\n\\n**Environment ID**: ', BAPEnvironmentId,\n'\\n\\n**URL**: ', URL,\n'\\n\\n**Organization Type**: ',OrgType,\n'\\n\\n**FriendlyName**: ', FriendlyName,\n'\\n\\n**Status**: ', Status,\n'\\n\\n**Security Group ID**: ', SecurityGroupGUID)\n//\n//\n// Main script\n//Retrieve org Info\n// union \n// cluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\n// cluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n// | where OrgId == orgid or isempty(orgid)\n// | where DomainName == domainname or isempty(domainname)\n// | where Geo == geo or isempty(geo)\n// | where BAPEnvironmentId == envid or isempty(envid)\n// | extend URL = case(\n// Geo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\n// Geo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\n// Geo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\n// Geo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\n// Geo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\n// Geo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\n// Geo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\n// Geo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\n// Geo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\n// strcat('https://', DomainName, '.crm15.dynamics.com')\n// )\n// | extend Version = strcat(tostring(MajorVersion),'.',tostring(MinorVersion),'.',tostring(BuildNumber),'.',tostring(Revision))\n// | project Geo, Datacenter, TenantId, DomainName, URL, OrgId, OrgType = case(Type == 0, \"Production\", Type == 4, \"Production\", Type == 5, \"Sandbox\", Type == 6, \"Sandbox\", Type == 10, \"Support instance\", Type == 12, \"Default\", Type == 13, \"Developer\", Type == 14, \"Trial\", Type == 15, \"Teams\", \"NA\"\n// ), EnvironmentID = BAPEnvironmentId, UniqueName, SecurityGroupGUID, FriendlyName, Status = case(OrgStatus == 1, \"Enabled\", OrgStatus == 0, \"Disabled\", OrgStatus == 2, \"Pending\", OrgStatus == 3, \"Failed\", \"Maintenance\"), IsMultiGeo, IsCDS, UserCount, ScaleGroupId, SqlServerName, DatabaseName, Max_backup_time=BackupRetentionInDays, Version, FnoUrl, WavesEnabled\n// | take 1"
+        "text": "//Retrieve org Info\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrgId == orgid or isempty(orgid)\n| where Geo == geo or isempty(geo)\n| where BAPEnvironmentId == envid or isempty(envid)\n| extend URL = case(\nGeo=='NA', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nGeo=='GBR', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| where DomainName == domainname or URL startswith domainname or URL startswith substring(domainname, 0, indexof(domainname, \".com\") + 4) or isempty(domainname)\n| extend Version = strcat(tostring(MajorVersion),'.',tostring(MinorVersion),'.',tostring(BuildNumber),'.',tostring(Revision))\n| extend OrgType = case(Type == 0, \"Production\", Type == 4, \"Production\", Type == 5, \"Sandbox\", Type == 11, \"Email Trial\", Type == 6, \"Sandbox\", Type == 10, \"Support instance\", Type == 12, \"Default\", Type == 13, \"Developer\", Type == 14, \"Trial\", Type == 15, \"Teams\", \"NA\"\n)\n| extend Status = case(OrgStatus == 1, \"Enabled\", OrgStatus == 0, \"Disabled\", OrgStatus == 2, \"Pending\", OrgStatus == 3, \"Failed\", \"Maintenance\")\n// | project Geo, Datacenter, , , , , , , , , , , IsMultiGeo, IsCDS, UserCount, ScaleGroupId, SqlServerName, DatabaseName, Max_backup_time=BackupRetentionInDays, Version, FnoUrl, WavesEnabled\n| take 1\n| project Details = strcat(\n'**Tenant Id**: ', TenantId, \n'\\n\\n**Organization Id**: ', OrgId, \n'\\n\\n**UniqueName**: ', UniqueName,\n'\\n\\n**Environment ID**: ', BAPEnvironmentId,\n'\\n\\n**URL**: ', URL,\n'\\n\\n**Organization Type**: ',OrgType,\n'\\n\\n**FriendlyName**: ', FriendlyName,\n'\\n\\n**Status**: ', Status,\n'\\n\\n**Security Group ID**: ', SecurityGroupGUID)\n//\n//\n// Main script\n//Retrieve org Info\n// union \n// cluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\n// cluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n// | where OrgId == orgid or isempty(orgid)\n// | where DomainName == domainname or isempty(domainname)\n// | where Geo == geo or isempty(geo)\n// | where BAPEnvironmentId == envid or isempty(envid)\n// | extend URL = case(\n// Geo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\n// Geo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\n// Geo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\n// Geo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\n// Geo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\n// Geo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\n// Geo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\n// Geo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\n// Geo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\n// strcat('https://', DomainName, '.crm15.dynamics.com')\n// )\n// | extend Version = strcat(tostring(MajorVersion),'.',tostring(MinorVersion),'.',tostring(BuildNumber),'.',tostring(Revision))\n// | project Geo, Datacenter, TenantId, DomainName, URL, OrgId, OrgType = case(Type == 0, \"Production\", Type == 4, \"Production\", Type == 5, \"Sandbox\", Type == 6, \"Sandbox\", Type == 10, \"Support instance\", Type == 12, \"Default\", Type == 13, \"Developer\", Type == 14, \"Trial\", Type == 15, \"Teams\", \"NA\"\n// ), EnvironmentID = BAPEnvironmentId, UniqueName, SecurityGroupGUID, FriendlyName, Status = case(OrgStatus == 1, \"Enabled\", OrgStatus == 0, \"Disabled\", OrgStatus == 2, \"Pending\", OrgStatus == 3, \"Failed\", \"Maintenance\"), IsMultiGeo, IsCDS, UserCount, ScaleGroupId, SqlServerName, DatabaseName, Max_backup_time=BackupRetentionInDays, Version, FnoUrl, WavesEnabled\n// | take 1"
       },
       "visualOptions": {
         "xColumn": null
@@ -3494,7 +3496,7 @@
     },
     {
       "id": "a4e87e15-7417-4d02-95c9-c53d483e09d6",
-      "title": "Organization DB config details",
+      "title": "Organization DB config details - local",
       "description": "",
       "visualType": "markdown",
       "pageId": "bcea7fec-63eb-4c0f-a4fc-54d7fbf8b8f0",
@@ -3519,7 +3521,7 @@
           "geo",
           "orgid"
         ],
-        "text": "//Retrieve org Info\nlet cllorg =(['Retrieve org id']);\nlet que1 = (\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrgId == orgid or isempty(orgid)\n| where Geo == geo or isempty(geo)\n| where BAPEnvironmentId == envid or isempty(envid)\n| extend URL = case(\nGeo=='NA', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| where DomainName == domainname or URL startswith domainname or URL startswith substring(domainname, 0, indexof(domainname, \".com\") + 4) or isempty(domainname)\n| extend Version = strcat(tostring(MajorVersion),'.',tostring(MinorVersion),'.',tostring(BuildNumber),'.',tostring(Revision))\n| extend OrgType = case(Type == 0, \"Production\", Type == 4, \"Production\", Type == 5, \"Sandbox\", Type == 6, \"Sandbox\", Type == 10, \"Support instance\", Type == 12, \"Default\", Type == 13, \"Developer\", Type == 14, \"Trial\", Type == 15, \"Teams\", \"NA\"\n)\n| extend Status = case(OrgStatus == 1, \"Enabled\", OrgStatus == 0, \"Disabled\", OrgStatus == 2, \"Pending\", OrgStatus == 3, \"Failed\", \"Maintenance\")\n| extend merge=1\n| project IsMultiGeo, IsCDS,UserCount, SqlServerName,DatabaseName , Version, FnoUrl,BackupRetentionInDays, merge\n| take 1\n);\nlet que2 =  (\nunion\ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationProperties,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationProperties\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrganizationID  in (cllorg) or isempty(orgid)\n| extend merge=1\n| project AdminOnlyMode,merge\n| take 1\n);\nque1\n| join kind=inner que2 on merge\n| project Details = strcat(\n'**MultiGeo enabled**: ', iff(IsMultiGeo=='true','Yes','No'), \n'\\n\\n**CDS Org**: ', iff(IsCDS=='true','Yes','No'), \n'\\n\\n**Admin only mode**: ', case(AdminOnlyMode=='0','Off;    **Background jobs**: On', AdminOnlyMode=='1','On;    **Background jobs**: On', AdminOnlyMode=='2','Off;    **Background jobs**: Off','On;    **Background jobs**: Off'),\n'\\n\\n**User Count**: ', UserCount,\n'\\n\\n**SQL Server Name**: ', SqlServerName,\n'\\n\\n**Database Name**: ', DatabaseName,\n'\\n\\n**Version**: ',Version,\n'\\n\\n**FnO Url**: ', FnoUrl,\n'\\n\\n**Max autobackup duration**: ', BackupRetentionInDays, ' days')"
+        "text": "//Retrieve org Info\nlet cllorg =(['Retrieve org id']);\nlet que1 = (\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrgId == orgid or isempty(orgid)\n| where Geo == geo or isempty(geo)\n| where BAPEnvironmentId == envid or isempty(envid)\n| extend URL = case(\nGeo=='NA', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nGeo=='GBR', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| where DomainName == domainname or URL startswith domainname or URL startswith substring(domainname, 0, indexof(domainname, \".com\") + 4) or isempty(domainname)\n| extend Version = strcat(tostring(MajorVersion),'.',tostring(MinorVersion),'.',tostring(BuildNumber),'.',tostring(Revision))\n| extend OrgType = case(Type == 0, \"Production\", Type == 4, \"Production\", Type == 5, \"Sandbox\", Type == 6, \"Sandbox\", Type == 10, \"Support instance\", Type == 12, \"Default\", Type == 13, \"Developer\", Type == 14, \"Trial\", Type == 15, \"Teams\", \"NA\"\n)\n| extend Status = case(OrgStatus == 1, \"Enabled\", OrgStatus == 0, \"Disabled\", OrgStatus == 2, \"Pending\", OrgStatus == 3, \"Failed\", \"Maintenance\")\n| extend merge=1\n| project IsMultiGeo, IsCDS,UserCount, SqlServerName,DatabaseName , Version, FnoUrl,BackupRetentionInDays, merge\n| take 1\n);\nlet que2 =  (\nunion\ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationProperties,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationProperties\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrganizationID  in (cllorg) or isempty(orgid)\n| extend merge=1\n| project AdminOnlyMode,merge\n| take 1\n);\nque1\n| join kind=inner que2 on merge\n| project Details = strcat(\n'**MultiGeo enabled**: ', iff(IsMultiGeo=='true','Yes','No'), \n'\\n\\n**CDS Org**: ', iff(IsCDS=='true','Yes','No'), \n'\\n\\n**Admin only mode**: ', case(AdminOnlyMode=='0','Off;    **Background jobs**: On', AdminOnlyMode=='1','On;    **Background jobs**: On', AdminOnlyMode=='2','Off;    **Background jobs**: Off','On;    **Background jobs**: Off'),\n'\\n\\n**User Count**: ', UserCount,\n'\\n\\n**SQL Server Name**: ', SqlServerName,\n'\\n\\n**Database Name**: ', DatabaseName,\n'\\n\\n**Version**: ',Version,\n'\\n\\n**FnO Url**: ', FnoUrl,\n'\\n\\n**Max autobackup duration**: ', BackupRetentionInDays, ' days')"
       },
       "visualOptions": {
         "xColumn": null
@@ -3527,7 +3529,7 @@
     },
     {
       "id": "6ee8b9f6-3415-4960-954e-cc4b2124cd70",
-      "title": "Datacenter and Scale group details",
+      "title": "Datacenter and Scale group details - local",
       "description": "",
       "visualType": "markdown",
       "pageId": "bcea7fec-63eb-4c0f-a4fc-54d7fbf8b8f0",
@@ -3551,7 +3553,7 @@
           "geo",
           "orgid"
         ],
-        "text": "//Retrieve org Info\nlet clltenant = (\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrgId == orgid or isempty(orgid)\n| extend URL = case(\nGeo=='NA', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| where DomainName == domainname or URL startswith domainname or URL startswith substring(domainname, 0, indexof(domainname, \".com\") + 4) or isempty(domainname)\n| where Geo == geo or isempty(geo)\n| where BAPEnvironmentId == envid or isempty(envid)\n| extend AzureRegion = case(DCName == \"BN1\",\"eastus\",DCName == \"BY2\",\"westus\", DCName == \"AMS\",\"westeurope\",DCName == \"DB3\", \"northeurope\", DCName == \"HKN\",\"eastasia\", DCName == \"SG1\",\"southeastasia\", DCName == \"CPQ\",\"brazilsouth\", DCName==\"SN1\",\"southcentralus\", DCName == \"MEL\",\"australiasoutheast\", DCName==\"SYD\",\"australiaeast\", DCName == \"TYO\",\"japaneast\", DCName==\"OSA\",\"japanwest\", DCName == \"MAA\",\"southindia\", DCName==\"PNQ\",\"centralindia\", DCName == \"YTO\",\"canadacentral\", DCName==\"YQB\",\"canadaeast\", DCName == \"CWL\",\"ukwest\", DCName==\"LON\",\"uksouth\", DCName == \"FRC\",\"francecentral\", DCName==\"FRS\",\"francesouth\", DCName == \"UAN\",\"uaenorth\", DCName==\"UAC\",\"uaecentral\", DCName == \"SAN\",\"southafricanorth\", DCName==\"SAW\",\"southafricawest\", DCName == \"GEC\",\"germanywestcentral\", DCName==\"GEN\",\"germanynorth\", DCName == \"ZRH\",\"switzerlandnorth\", DCName==\"GVA\",\"switzerlandwest\", DCName == \"CKR\",\"koreacentral\", DCName==\"SKR\",\"koreasouth\", DCName == \"ENO\",\"norwayeast\", DCName==\"WNO\",\"norwaywest\", DCName == \"TP1\",\"eastus\", DCName==\"TP2\",\"westus\", \"Undefined\"), ScaleGroupId\n| take 1\n);\nlet clltenant2 = (\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrgId == orgid or isempty(orgid)\n| where BAPEnvironmentId == envid or isempty(envid)\n| extend URL = case(\nGeo=='NA', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| where DomainName == domainname or URL startswith domainname or URL startswith substring(domainname, 0, indexof(domainname, \".com\") + 4) or isempty(domainname)\n| where Geo == geo or isempty(geo)\n| project ScaleGroupId\n| take 1\n);\nlet que1 = (\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").IslandDetails\n| where ScaleGroupId in (clltenant2)\n| extend merge=1\n| project IslandName, IslandNumber, KustoCluster, merge, ScaleGroupId\n| take 1\n);\nlet que2 = (\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").ScalegroupDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").ScalegroupDetails\n| where TIMESTAMP between (_startTime.._endTime)\n| where Id in (clltenant2)\n| extend merge=1\n| order by ScaleGroup, ScaleGroupType, TargetEdition, TierGroupName, AzureRegion, Geo\n| project ScaleGroup, ScaleGroupType, TargetEdition, TierGroupName, AzureRegion, Geo, Datacenter, merge\n// | take 1\n);\nque1\n| join kind=inner que2 on merge\n| project IslandName, IslandNumber, KustoCluster, ScaleGroup, ScaleGroupType, TargetEdition, TierGroupName, AzureRegion, Geo, Datacenter, ScaleGroupId\n| take 1\n| project Details = strcat(\n'**Geo**: ', Geo, \n'\\n\\n**Datacenter**: ', Datacenter, \n'\\n\\n**Azure Region**: ', AzureRegion,\n'\\n\\n**Scale Group**: ', ScaleGroup,\n'\\n\\n**Scale Group Type / Target type**: ', strcat(ScaleGroupType, ' / ', TargetEdition),\n'\\n\\n**Scale Group Id**: ', ScaleGroupId,\n'\\n\\n**Island Name / Tier Group Name**: ', strcat(IslandName, ' / ', TierGroupName),\n'\\n\\n**Island Number**: ', IslandNumber,\n'\\n\\n**Kusto Cluster**: ', KustoCluster)\n\n\n//main script\n// let clltenant = (\n// union \n// cluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\n// cluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n// | where OrgId == orgid or isempty(orgid)\n// | where DomainName == domainname or isempty(domainname)\n// | where Geo == geo or isempty(geo)\n// | where BAPEnvironmentId == envid or isempty(envid)\n// | project AzureRegion = case(DCName == \"BN1\",\"eastus\",DCName == \"BY2\",\"westus\", DCName == \"AMS\",\"westeurope\",DCName == \"DB3\", \"northeurope\", DCName == \"HKN\",\"eastasia\", DCName == \"SG1\",\"southeastasia\", DCName == \"CPQ\",\"brazilsouth\", DCName==\"SN1\",\"southcentralus\", DCName == \"MEL\",\"australiasoutheast\", DCName==\"SYD\",\"australiaeast\", DCName == \"TYO\",\"japaneast\", DCName==\"OSA\",\"japanwest\", DCName == \"MAA\",\"southindia\", DCName==\"PNQ\",\"centralindia\", DCName == \"YTO\",\"canadacentral\", DCName==\"YQB\",\"canadaeast\", DCName == \"CWL\",\"ukwest\", DCName==\"LON\",\"uksouth\", DCName == \"FRC\",\"francecentral\", DCName==\"FRS\",\"francesouth\", DCName == \"UAN\",\"uaenorth\", DCName==\"UAC\",\"uaecentral\", DCName == \"SAN\",\"southafricanorth\", DCName==\"SAW\",\"southafricawest\", DCName == \"GEC\",\"germanywestcentral\", DCName==\"GEN\",\"germanynorth\", DCName == \"ZRH\",\"switzerlandnorth\", DCName==\"GVA\",\"switzerlandwest\", DCName == \"CKR\",\"koreacentral\", DCName==\"SKR\",\"koreasouth\", DCName == \"ENO\",\"norwayeast\", DCName==\"WNO\",\"norwaywest\", DCName == \"TP1\",\"eastus\", DCName==\"TP2\",\"westus\", \"Undefined\"), ScaleGroupId\n// | take 1\n// );\n// let clltenant2 = (\n// union \n// cluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\n// cluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n// | where OrgId == orgid or isempty(orgid)\n// | where DomainName == domainname or isempty(domainname)\n// | where Geo == geo or isempty(geo)\n// | project ScaleGroupId\n// | take 1\n// );\n// let que1 = (\n// union \n// cluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").IslandDetails\n// | where ScaleGroupId in (clltenant2)\n// | extend merge=1\n// | project IslandName, IslandNumber, KustoCluster, merge\n// | take 1\n// );\n// let que2 = (\n// union \n// cluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").ScalegroupDetails,\n// cluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").ScalegroupDetails\n// | where Id in (clltenant2)\n// | extend merge=1\n// | order by ScaleGroup, ScaleGroupType, TargetEdition, TierGroupName, AzureRegion, Geo\n// | project ScaleGroup, ScaleGroupType, TargetEdition, TierGroupName, AzureRegion, Geo, Datacenter, merge\n// | take 1\n// );\n// que1\n// | join kind=inner que2 on merge\n// | project IslandName, IslandNumber, KustoCluster, ScaleGroup, ScaleGroupType, TargetEdition, TierGroupName, AzureRegion, Geo, Datacenter"
+        "text": "//Retrieve org Info\nlet clltenant = (\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrgId == orgid or isempty(orgid)\n| extend URL = case(\nGeo=='NA', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nGeo=='GBR', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| where DomainName == domainname or URL startswith domainname or URL startswith substring(domainname, 0, indexof(domainname, \".com\") + 4) or isempty(domainname)\n| where Geo == geo or isempty(geo)\n| where BAPEnvironmentId == envid or isempty(envid)\n| extend AzureRegion = case(DCName == \"BN1\",\"eastus\",DCName == \"BY2\",\"westus\", DCName == \"AMS\",\"westeurope\",DCName == \"DB3\", \"northeurope\", DCName == \"HKN\",\"eastasia\", DCName == \"SG1\",\"southeastasia\", DCName == \"CPQ\",\"brazilsouth\", DCName==\"SN1\",\"southcentralus\", DCName == \"MEL\",\"australiasoutheast\", DCName==\"SYD\",\"australiaeast\", DCName == \"TYO\",\"japaneast\", DCName==\"OSA\",\"japanwest\", DCName == \"MAA\",\"southindia\", DCName==\"PNQ\",\"centralindia\", DCName == \"YTO\",\"canadacentral\", DCName==\"YQB\",\"canadaeast\", DCName == \"CWL\",\"ukwest\", DCName==\"LON\",\"uksouth\", DCName == \"FRC\",\"francecentral\", DCName==\"FRS\",\"francesouth\", DCName == \"UAN\",\"uaenorth\", DCName==\"UAC\",\"uaecentral\", DCName == \"SAN\",\"southafricanorth\", DCName==\"SAW\",\"southafricawest\", DCName == \"GEC\",\"germanywestcentral\", DCName==\"GEN\",\"germanynorth\", DCName == \"ZRH\",\"switzerlandnorth\", DCName==\"GVA\",\"switzerlandwest\", DCName == \"CKR\",\"koreacentral\", DCName==\"SKR\",\"koreasouth\", DCName == \"ENO\",\"norwayeast\", DCName==\"WNO\",\"norwaywest\", DCName == \"TP1\",\"eastus\", DCName==\"TP2\",\"westus\", \"Undefined\"), ScaleGroupId\n| take 1\n);\nlet clltenant2 = (\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrgId == orgid or isempty(orgid)\n| where BAPEnvironmentId == envid or isempty(envid)\n| extend URL = case(\nGeo=='NA', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nGeo=='GBR', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| where DomainName == domainname or URL startswith domainname or URL startswith substring(domainname, 0, indexof(domainname, \".com\") + 4) or isempty(domainname)\n| where Geo == geo or isempty(geo)\n| project ScaleGroupId\n| take 1\n);\nlet que1 = (\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").IslandDetails\n| where ScaleGroupId in (clltenant2)\n| extend merge=1\n| project IslandName, IslandNumber, KustoCluster, merge, ScaleGroupId\n| take 1\n);\nlet que2 = (\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").ScalegroupDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").ScalegroupDetails\n| where TIMESTAMP between (_startTime.._endTime)\n| where Id in (clltenant2)\n| extend merge=1\n| order by ScaleGroup, ScaleGroupType, TargetEdition, TierGroupName, AzureRegion, Geo\n| project ScaleGroup, ScaleGroupType, TargetEdition, TierGroupName, AzureRegion, Geo, Datacenter, merge\n// | take 1\n);\nque1\n| join kind=inner que2 on merge\n| project IslandName, IslandNumber, KustoCluster, ScaleGroup, ScaleGroupType, TargetEdition, TierGroupName, AzureRegion, Geo, Datacenter, ScaleGroupId\n| take 1\n| project Details = strcat(\n'**Geo**: ', Geo, \n'\\n\\n**Datacenter**: ', Datacenter, \n'\\n\\n**Azure Region**: ', AzureRegion,\n'\\n\\n**Scale Group**: ', ScaleGroup,\n'\\n\\n**Scale Group Type / Target type**: ', strcat(ScaleGroupType, ' / ', TargetEdition),\n'\\n\\n**Scale Group Id**: ', ScaleGroupId,\n'\\n\\n**Island Name / Tier Group Name**: ', strcat(IslandName, ' / ', TierGroupName),\n'\\n\\n**Island Number**: ', IslandNumber,\n'\\n\\n**Kusto Cluster**: ', KustoCluster)\n\n\n//main script\n// let clltenant = (\n// union \n// cluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\n// cluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n// | where OrgId == orgid or isempty(orgid)\n// | where DomainName == domainname or isempty(domainname)\n// | where Geo == geo or isempty(geo)\n// | where BAPEnvironmentId == envid or isempty(envid)\n// | project AzureRegion = case(DCName == \"BN1\",\"eastus\",DCName == \"BY2\",\"westus\", DCName == \"AMS\",\"westeurope\",DCName == \"DB3\", \"northeurope\", DCName == \"HKN\",\"eastasia\", DCName == \"SG1\",\"southeastasia\", DCName == \"CPQ\",\"brazilsouth\", DCName==\"SN1\",\"southcentralus\", DCName == \"MEL\",\"australiasoutheast\", DCName==\"SYD\",\"australiaeast\", DCName == \"TYO\",\"japaneast\", DCName==\"OSA\",\"japanwest\", DCName == \"MAA\",\"southindia\", DCName==\"PNQ\",\"centralindia\", DCName == \"YTO\",\"canadacentral\", DCName==\"YQB\",\"canadaeast\", DCName == \"CWL\",\"ukwest\", DCName==\"LON\",\"uksouth\", DCName == \"FRC\",\"francecentral\", DCName==\"FRS\",\"francesouth\", DCName == \"UAN\",\"uaenorth\", DCName==\"UAC\",\"uaecentral\", DCName == \"SAN\",\"southafricanorth\", DCName==\"SAW\",\"southafricawest\", DCName == \"GEC\",\"germanywestcentral\", DCName==\"GEN\",\"germanynorth\", DCName == \"ZRH\",\"switzerlandnorth\", DCName==\"GVA\",\"switzerlandwest\", DCName == \"CKR\",\"koreacentral\", DCName==\"SKR\",\"koreasouth\", DCName == \"ENO\",\"norwayeast\", DCName==\"WNO\",\"norwaywest\", DCName == \"TP1\",\"eastus\", DCName==\"TP2\",\"westus\", \"Undefined\"), ScaleGroupId\n// | take 1\n// );\n// let clltenant2 = (\n// union \n// cluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\n// cluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n// | where OrgId == orgid or isempty(orgid)\n// | where DomainName == domainname or isempty(domainname)\n// | where Geo == geo or isempty(geo)\n// | project ScaleGroupId\n// | take 1\n// );\n// let que1 = (\n// union \n// cluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").IslandDetails\n// | where ScaleGroupId in (clltenant2)\n// | extend merge=1\n// | project IslandName, IslandNumber, KustoCluster, merge\n// | take 1\n// );\n// let que2 = (\n// union \n// cluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").ScalegroupDetails,\n// cluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").ScalegroupDetails\n// | where Id in (clltenant2)\n// | extend merge=1\n// | order by ScaleGroup, ScaleGroupType, TargetEdition, TierGroupName, AzureRegion, Geo\n// | project ScaleGroup, ScaleGroupType, TargetEdition, TierGroupName, AzureRegion, Geo, Datacenter, merge\n// | take 1\n// );\n// que1\n// | join kind=inner que2 on merge\n// | project IslandName, IslandNumber, KustoCluster, ScaleGroup, ScaleGroupType, TargetEdition, TierGroupName, AzureRegion, Geo, Datacenter"
       },
       "visualOptions": {
         "xColumn": null
@@ -3716,7 +3718,7 @@
     },
     {
       "id": "3e08e3c4-e5a9-4465-855e-5ab93d865502",
-      "title": "Worker allocation request",
+      "title": "Worker allocation request - local",
       "description": "",
       "visualType": "timechart",
       "pageId": "dbcf039f-c0dd-4c0c-bf5c-89878274083f",
@@ -3870,7 +3872,7 @@
           "geo",
           "orgid"
         ],
-        "text": "let cllgetorginfo = (\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrgId == orgid or isempty(orgid)\n| where Geo == geo or isempty(geo)\n| where BAPEnvironmentId == envid or isempty(envid)\n| extend URL = case(\nGeo=='NA', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| where DomainName == domainname or URL startswith domainname or URL startswith substring(domainname, 0, indexof(domainname, \".com\") + 4) or isempty(domainname)\n| project BAPEnvironmentId\n| take 1\n);\nBaprpEnvironmentLifecycleOperations(TraceEvents, _startTime, _endTime)\n| where sourceEnvironmentName in (cllgetorginfo) or targetEnvironmentName in (cllgetorginfo)\n| project TIMESTAMP, operationType, sourceEnvironmentName, targetEnvironmentName, ActivityId, correlationId, clientRequestId, clientSessionId, triggeredById, message"
+        "text": "let cllgetorginfo = (\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrgId == orgid or isempty(orgid)\n| where Geo == geo or isempty(geo)\n| where BAPEnvironmentId == envid or isempty(envid)\n| extend URL = case(\nGeo=='NA', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nGeo=='GBR', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| where DomainName == domainname or URL startswith domainname or URL startswith substring(domainname, 0, indexof(domainname, \".com\") + 4) or isempty(domainname)\n| project BAPEnvironmentId\n| take 1\n);\nBaprpEnvironmentLifecycleOperations(TraceEvents, _startTime, _endTime)\n| where sourceEnvironmentName in (cllgetorginfo) or targetEnvironmentName in (cllgetorginfo)\n| project TIMESTAMP, operationType, sourceEnvironmentName, targetEnvironmentName, ActivityId, correlationId, clientRequestId, clientSessionId, triggeredById, message"
       },
       "visualOptions": {
         "table__enableRenderLinks": true,
@@ -3985,7 +3987,7 @@
     {
       "id": "3d7cfc5c-e689-4b9f-aa28-b6ec96ea8834",
       "title": "Check DAMS script result (run SQL script to database)",
-      "description": "",
+      "description": "Require:\nKusto GUID or SQL script name",
       "visualType": "table",
       "pageId": "407aa955-24cc-49ad-9624-1fb1840a460a",
       "layout": {
@@ -4059,7 +4061,7 @@
           "geo",
           "orgid"
         ],
-        "text": "let cllscaleid =(\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrgId == orgid or isempty(orgid)\n| where Geo == geo or isempty(geo)\n| where BAPEnvironmentId == envid or isempty(envid)\n| extend URL = case(\nGeo=='NA', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| where DomainName == domainname or URL startswith domainname or URL startswith substring(domainname, 0, indexof(domainname, \".com\") + 4) or isempty(domainname)\n| project ScaleGroupId\n| take 1\n);\ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").IslandDetails\n| where ScaleGroupId in (cllscaleid)\n| take 1\n| project Details = strcat('Pick this Data Source (DB cluster) before running below scripts: ', KustoCluster)"
+        "text": "let cllscaleid =(\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrgId == orgid or isempty(orgid)\n| where Geo == geo or isempty(geo)\n| where BAPEnvironmentId == envid or isempty(envid)\n| extend URL = case(\nGeo=='NA', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nGeo=='GBR', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| where DomainName == domainname or URL startswith domainname or URL startswith substring(domainname, 0, indexof(domainname, \".com\") + 4) or isempty(domainname)\n| project ScaleGroupId\n| take 1\n);\ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").IslandDetails\n| where ScaleGroupId in (cllscaleid)\n| take 1\n| project Details = strcat('Pick this Data Source (DB cluster) before running below scripts: ', KustoCluster)"
       },
       "visualOptions": {
         "xColumn": null
@@ -4092,7 +4094,7 @@
           "geo",
           "orgid"
         ],
-        "text": "let cllscaleid =(\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrgId == orgid or isempty(orgid)\n| where Geo == geo or isempty(geo)\n| where BAPEnvironmentId == envid or isempty(envid)\n| extend URL = case(\nGeo=='NA', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| where DomainName == domainname or URL startswith domainname or URL startswith substring(domainname, 0, indexof(domainname, \".com\") + 4) or isempty(domainname)\n| project ScaleGroupId\n| take 1\n);\ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").IslandDetails\n| where ScaleGroupId in (cllscaleid)\n| take 1\n| project Details = strcat('Pick this Data Source (DB cluster) before running below scripts: ', KustoCluster)"
+        "text": "let cllscaleid =(\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrgId == orgid or isempty(orgid)\n| where Geo == geo or isempty(geo)\n| where BAPEnvironmentId == envid or isempty(envid)\n| extend URL = case(\nGeo=='NA', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nGeo=='GBR', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| where DomainName == domainname or URL startswith domainname or URL startswith substring(domainname, 0, indexof(domainname, \".com\") + 4) or isempty(domainname)\n| project ScaleGroupId\n| take 1\n);\ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").IslandDetails\n| where ScaleGroupId in (cllscaleid)\n| take 1\n| project Details = strcat('Pick this Data Source (DB cluster) before running below scripts: ', KustoCluster)"
       },
       "visualOptions": {
         "xColumn": null
@@ -4254,6 +4256,197 @@
           
         ]
       }
+    },
+    {
+      "id": "e5ea9c4a-2770-4b48-af11-4c344bfb8909",
+      "title": "Retrieve correlation ID from Activity ID - local",
+      "description": "Require:\n- Organization ID\n- Activity ID",
+      "visualType": "table",
+      "pageId": "0728c15b-7dc1-4bb5-9f8d-98e242d326cd",
+      "layout": {
+        "x": 0,
+        "y": 4,
+        "width": 8,
+        "height": 5
+      },
+      "query": {
+        "kind": "inline",
+        "dataSource": {
+          "kind": "inline",
+          "dataSourceId": "5bd9fbcb-4e26-41b9-84d7-335352f64c6a"
+        },
+        "usedVariables": [
+          "activityid"
+        ],
+        "text": "union \nGetCorrelationIdFromActivityIdV1('WebRequestStatistics', activityid),\nGetCorrelationIdFromActivityIdV1('TraceError', activityid),\nGetCorrelationIdFromActivityIdV1('BPOCreateCompleted', activityid),\nGetCorrelationIdFromActivityIdV1('BPODeleteCompleted', activityid),\nGetCorrelationIdFromActivityIdV1('BPODisassociateCompleted', activityid),\nGetCorrelationIdFromActivityIdV1('BPOMultipleDeleteCompleted', activityid),\nGetCorrelationIdFromActivityIdV1('BPOMultipleRetrieveCompleted', activityid),\nGetCorrelationIdFromActivityIdV1('BPORetrieveCompleted', activityid),\nGetCorrelationIdFromActivityIdV1('BPOUpdateCompleted', activityid),\nGetCorrelationIdFromActivityIdV1('SolutionImport', activityid),\nGetCorrelationIdFromActivityIdV1('SolutionExport', activityid),\nGetCorrelationIdFromActivityIdV1('SolutionUninstall', activityid),\nGetCorrelationIdFromActivityIdV1('PublishCustomization', activityid),\nGetCorrelationIdFromActivityIdV1('SandboxExecutionAll', activityid)\n| summarize by correlationId"
+      },
+      "visualOptions": {
+        "table__enableRenderLinks": true,
+        "colorRules": [
+          
+        ],
+        "colorRulesDisabled": true,
+        "colorStyle": "light",
+        "crossFilterDisabled": false,
+        "drillthroughDisabled": false,
+        "crossFilter": [
+          
+        ],
+        "drillthrough": [
+          
+        ],
+        "table__renderLinks": [
+          
+        ]
+      }
+    },
+    {
+      "id": "86cd0b64-cb92-452d-a2f7-4a5c38a5abbe",
+      "title": "About",
+      "description": "",
+      "visualType": "markdownCard",
+      "pageId": "0728c15b-7dc1-4bb5-9f8d-98e242d326cd",
+      "layout": {
+        "x": 18,
+        "y": 0,
+        "width": 6,
+        "height": 4
+      },
+      "query": {
+        "kind": "inline",
+        "usedVariables": [
+          
+        ],
+        "text": "[See this article](https://onesupportknowledge.notion.site/Kalmin-Kustoboard-f5b8b8c4cc154ecbb45934714cd7dac8?pvs=25) on how to use the dashboard.\r\n\r\nYou're welcome to join us at [this GitHub repo](https://github.com/Kalmin-Pham/tke_kalminkustoboard)."
+      },
+      "visualOptions": {
+        
+      }
+    },
+    {
+      "id": "38068764-de62-4e18-83bd-e8f7194e3f43",
+      "title": "Check total status of SQL tunning query",
+      "description": "Require:\n- Organization ID\n- Query ID",
+      "visualType": "table",
+      "pageId": "407aa955-24cc-49ad-9624-1fb1840a460a",
+      "layout": {
+        "x": 0,
+        "y": 13,
+        "width": 24,
+        "height": 7
+      },
+      "query": {
+        "kind": "inline",
+        "dataSource": {
+          "kind": "inline",
+          "dataSourceId": "5bd9fbcb-4e26-41b9-84d7-335352f64c6a"
+        },
+        "usedVariables": [
+          "Retrieve org id",
+          "_endTime",
+          "_startTime",
+          "sqlqueid"
+        ],
+        "text": "let cllgetorginfo = (\n['Retrieve org id']\n);\ncluster(\"https://capdamsprod.kusto.windows.net\").database(\"DamsProd\").AutotuneLog\n| where CE_OrganizationId in (cllgetorginfo)\n| where TIMESTAMP between (_startTime .._endTime )\n| where QueryId == sqlqueid\n| project PreciseTimeStamp, QueryId, Source, Status, QueryHintOptimization, MissingIndexCreation, DatabaseTuningAdvisor, QueryRecompilation, Operation,  BeforeDurationMs, AfterDurationMs"
+      },
+      "visualOptions": {
+        "table__enableRenderLinks": true,
+        "colorRules": [
+          
+        ],
+        "colorRulesDisabled": true,
+        "colorStyle": "light",
+        "crossFilterDisabled": false,
+        "drillthroughDisabled": false,
+        "crossFilter": [
+          
+        ],
+        "drillthrough": [
+          
+        ],
+        "table__renderLinks": [
+          
+        ]
+      }
+    },
+    {
+      "id": "a8ef4501-1f14-4df5-8105-1d3206ed46f5",
+      "title": "Check single status of SQL tunning query",
+      "description": "Require:\n- Organization ID\n- Query ID",
+      "visualType": "table",
+      "pageId": "407aa955-24cc-49ad-9624-1fb1840a460a",
+      "layout": {
+        "x": 0,
+        "y": 20,
+        "width": 24,
+        "height": 8
+      },
+      "query": {
+        "kind": "inline",
+        "dataSource": {
+          "kind": "inline",
+          "dataSourceId": "5bd9fbcb-4e26-41b9-84d7-335352f64c6a"
+        },
+        "usedVariables": [
+          "Retrieve org id",
+          "_endTime",
+          "_startTime",
+          "sqlqueid"
+        ],
+        "text": "let cllgetorginfo = (\n['Retrieve org id']\n);\ncluster(\"https://capdamsprod.kusto.windows.net\").database(\"DamsProd\").AutotuneLog\n| where CE_OrganizationId in (cllgetorginfo) or FnO_EnvironmentId in (cllgetorginfo)\n| where TIMESTAMP between (_startTime .._endTime )\n| where QueryId == sqlqueid\n| summarize arg_max(LogDate, Status, BeforeDurationMs, AfterDurationMs, Operation),\n            max(MissingIndexCreation),\n            max(QueryRecompilation),\n            max(QueryHintOptimization),\n            max(DatabaseTuningAdvisor) by QueryId, Source\n| extend Status = iif(Status == 0, 'In Progress',\n                  iif(Status == 1, 'Validating Applied Recommendation',\n                  iif(Status == 3, 'Rolling Back Applied Recommendation',\n                  iif(Status == 2, 'Finished', 'Unknown'))))\n| project TIMESTAMP = LogDate,\n          QueryId,\n          Source,\n          Status,\n          TuningEvaluationTechniques = strcat(iif(max_QueryRecompilation == 1, 'QueryRecompilation,', ''),\n                                          iif(max_MissingIndexCreation == 1, 'MissingIndexCreation,', ''),\n                                          iif(max_QueryHintOptimization == 1, 'QueryHintOptimization,', ''),\n                                          iif(max_DatabaseTuningAdvisor == 1, 'DatabaseTuningAdvisor,', '')),\n          AppliedRecommendations = Operation,\n          BeforeDurationMs,\n          AfterDurationMs,\n          Improvement = todouble(BeforeDurationMs) / todouble(AfterDurationMs)"
+      },
+      "visualOptions": {
+        "table__enableRenderLinks": true,
+        "colorRules": [
+          
+        ],
+        "colorRulesDisabled": true,
+        "colorStyle": "light",
+        "crossFilterDisabled": false,
+        "drillthroughDisabled": false,
+        "crossFilter": [
+          
+        ],
+        "drillthrough": [
+          
+        ],
+        "table__renderLinks": [
+          
+        ]
+      }
+    },
+    {
+      "id": "0ab32f39-c607-45e9-ae1c-7dfa61f6435a",
+      "title": "Unify link",
+      "description": "",
+      "visualType": "markdown",
+      "pageId": "0728c15b-7dc1-4bb5-9f8d-98e242d326cd",
+      "layout": {
+        "x": 0,
+        "y": 0,
+        "width": 18,
+        "height": 4
+      },
+      "query": {
+        "kind": "inline",
+        "dataSource": {
+          "kind": "inline",
+          "dataSourceId": "5bd9fbcb-4e26-41b9-84d7-335352f64c6a"
+        },
+        "usedVariables": [
+          "_endTime",
+          "_startTime",
+          "domainname",
+          "envid",
+          "geo",
+          "orgid",
+          "ticketid"
+        ],
+        "text": "union \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrgId == orgid or isempty(orgid)\n| where Geo == geo or isempty(geo)\n| where BAPEnvironmentId == envid or isempty(envid)\n| extend CaseID = iff(isempty(ticketid)==true, '2402220030000097', ticketid)\n| extend URL = case(\nGeo=='NA', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nGeo=='GBR', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| where DomainName == domainname or URL startswith domainname or URL startswith substring(domainname, 0, indexof(domainname, \".com\") + 4) or isempty(domainname)\n| take 1\n| project Details = \niff(\nGeo in ('NA', 'LATAM/SAM', 'CAN', 'APAC', 'JPN', 'IND'), \nstrcat(\n'**Overview**: ', 'https://unify-pme.services.dynamics.com/CRM/Org/', OrgId, '/Incident/ServiceDesk/', CaseID, '/Home'\n'\\n\\n**Increase API limit**: ', 'https://unify-pme.services.dynamics.com/CRM/Org/', OrgId, '/Incident/ServiceDesk/', CaseID,'/OrgHealth/Throttling'\n'\\n\\n**Capacity details**: ', 'https://unify-pme.services.dynamics.com/CRM/Org/', OrgId, '/Incident/ServiceDesk/', CaseID,'/TLC/CapacityDetailsReport'\n), \nstrcat(\n'**Overview**: ', 'https://unify-eu.services.dynamics.com/CRM/Org/', OrgId, '/Incident/ServiceDesk/', CaseID, '/Home'\n'\\n\\n**Increase API limit**: ', 'https://unify-eu.services.dynamics.com/CRM/Org/', OrgId, '/Incident/ServiceDesk/', CaseID,'/OrgHealth/Throttling'\n'\\n\\n**Capacity details**: ', 'https://unify-eu.services.dynamics.com/CRM/Org/', OrgId, '/Incident/ServiceDesk/', CaseID,'/TLC/CapacityDetailsReport'\n)\n)\n\n// | project Details = strcat(\n// '**Tenant Id**: ', TenantId, \n// '\\n\\n**Organization Id**: ', OrgId, \n// '\\n\\n**UniqueName**: ', UniqueName,\n// '\\n\\n**Environment ID**: ', BAPEnvironmentId,\n// '\\n\\n**URL**: ', URL,\n// '\\n\\n**Organization Type**: ',OrgType,\n// '\\n\\n**FriendlyName**: ', FriendlyName,\n// '\\n\\n**Status**: ', Status,\n// '\\n\\n**Security Group ID**: ', SecurityGroupGUID)"
+      },
+      "visualOptions": {
+        "xColumn": null
+      }
     }
   ],
   "parameters": [
@@ -4395,7 +4588,8 @@
       "showOnPages": {
         "kind": "selection",
         "pageIds": [
-          "bcea7fec-63eb-4c0f-a4fc-54d7fbf8b8f0"
+          "bcea7fec-63eb-4c0f-a4fc-54d7fbf8b8f0",
+          "0728c15b-7dc1-4bb5-9f8d-98e242d326cd"
         ]
       }
     },
@@ -4431,7 +4625,8 @@
           "502b52c7-822a-4aa0-92b6-dd65a8e2ec36",
           "2aba6666-45d2-4f33-97f4-1df4d6e6fe93",
           "a1fef0b8-1711-489f-b2db-02e556089f6b",
-          "3baeb1d7-1951-4307-b892-f515e9d2d0b5"
+          "3baeb1d7-1951-4307-b892-f515e9d2d0b5",
+          "0728c15b-7dc1-4bb5-9f8d-98e242d326cd"
         ]
       }
     },
@@ -5245,6 +5440,23 @@
           "407aa955-24cc-49ad-9624-1fb1840a460a"
         ]
       }
+    },
+    {
+      "kind": "string",
+      "selectionType": "freetext",
+      "id": "f21093b6-a0dc-4b24-81e3-28a4daa53151",
+      "displayName": "Query ID",
+      "variableName": "sqlqueid",
+      "description": "",
+      "defaultValue": {
+        "kind": "all"
+      },
+      "showOnPages": {
+        "kind": "selection",
+        "pageIds": [
+          "407aa955-24cc-49ad-9624-1fb1840a460a"
+        ]
+      }
     }
   ],
   "dataSources": [
@@ -5383,6 +5595,14 @@
       "database": "CRMAnalytics",
       "kind": "manual-kusto",
       "scopeId": "kusto"
+    },
+    {
+      "id": "2a8de8f3-09f1-4034-a325-65b0c1b64132",
+      "name": "capdamsprod",
+      "clusterUri": "https://capdamsprod.kusto.windows.net/",
+      "database": "DamsProd",
+      "kind": "manual-kusto",
+      "scopeId": "kusto"
     }
   ],
   "pages": [
@@ -5431,4 +5651,4 @@
       "id": "0728c15b-7dc1-4bb5-9f8d-98e242d326cd"
     }
   ]
-} 
+}
