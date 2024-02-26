@@ -1,7 +1,7 @@
 {
   "$schema": "https://dataexplorer.azure.com/static/d/schema/49/dashboard.json",
   "id": "40e8bded-e837-4149-a8f0-43a3b4cf8900",
-  "eTag": "a45a1565-bb9d-4b1c-91c6-13edccf76fe1",
+  "eTag": "cf1722fc-c958-4716-b060-6ddc1d85e1f4",
   "schema_version": "49",
   "title": "Kalmin Kustoboard",
   "baseQueries": [
@@ -3153,8 +3153,8 @@
     },
     {
       "id": "8d4e0881-eafa-498b-bc21-ded8d048aae1",
-      "title": "Extend operation event by correlation ID (contains fdisland)",
-      "description": "Require:\n- Organization ID\n- Correlation ID",
+      "title": "Trace log by correlation ID (contains fdisland)",
+      "description": "Require:\n- Organization ID\n- Correlation ID or any ID",
       "visualType": "table",
       "pageId": "2aba6666-45d2-4f33-97f4-1df4d6e6fe93",
       "layout": {
@@ -3175,7 +3175,7 @@
           "_startTime",
           "corrid"
         ],
-        "text": "let cllgetorginfo = (\n['Retrieve org id']\n);\nlet _correlationId = corrid;\nlet WebRequestStatisticsData = materialize(\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").WebRequestStatistics,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").WebRequestStatistics\n| where TIMESTAMP between (_startTime.. _endTime)\n      and OrganizationId in (cllgetorginfo)\n    and (ActivityId =~ _correlationId \n           or ClientActivityId =~ _correlationId\n         or ClientRequestId =~ _correlationId\n       or ClientSessionId =~ _correlationId \n       or requestId =~ _correlationId\n       or serverResponseId =~ _correlationId \n         or WebRequestStatsCorrelationId =~ _correlationId\n       or Headers has _correlationId)\n| extend source = \"Web\", sourceTable = \"WebRequestStatistics\"\n| project TIMESTAMP, HttpStatus, OperationName, ActivityId, ClientActivityId, ClientRequestId, ClientSessionId, requestId, serverResponseId, WebRequestStatsCorrelationId, Headers, source, sourceTable\n| summarize arg_max(TIMESTAMP,*) by ClientActivityId\n| extend ColumnsSearched = dynamic_to_json(bag_pack_columns(ActivityId, ClientActivityId, ClientRequestId, ClientSessionId, requestId, serverResponseId, WebRequestStatsCorrelationId))\n| project env_time = TIMESTAMP, correlationId = ClientActivityId, serviceRequestId = serverResponseId, clientSessionId = ClientSessionId, clientRequestId = ClientRequestId, principalObjectId = \"\", activityName = \"\", operationType = \"\", activityVector = \"\", resultType = HttpStatus, source, sourceTable, ColumnsSearched, DisplayPriority = 5);\nlet OperationEventsData = materialize (\nfind in (\n    cluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OperationEvents,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OperationEvents,\ncluster(\"https://crmasyncprodcus.kusto.windows.net\").database(\"CRMAnalytics\").OperationEvents,\ncluster(\"https://crmasyncprodweu.kusto.windows.net\").database(\"CRMAnalytics\").OperationEvents\n    )\n    where (env_time between (_startTime.. _endTime))\n    and (organizationId in (cllgetorginfo) or OrganizationId in (cllgetorginfo))\n      and (ActivityId =~ _correlationId\n       or activityId =~ _correlationId\n         or clientRequestId =~ _correlationId\n       or clientSessionId =~ _correlationId\n       or correlationId =~ _correlationId\n       or executionId =~ _correlationId\n       or parentExecutionId =~ _correlationId\n         or requestId =~ _correlationId\n         or serviceRequestId =~ _correlationId\n         or customDimensions has _correlationId)\n| extend source = iff(source_ contains \"async\", \"Async\", \"Web\"), sourceTable = \"OperationEvents\"\n| extend orderPriority = case(resultType == \"Failure\", 1, resultType == \"SuccessDespiteError\", 2, resultType == \"Success\", 3, 4)\n| project env_time, source, sourceTable, resultType, activityId = coalesce(activityId,column_ifexists(\"ActivityId1\",\"\"),\"\"), clientRequestId, clientSessionId, correlationId, executionId, parentExecutionId, requestId, serviceRequestId, orderPriority, principalObjectId, activityName, activityVector, operationType\n| order by orderPriority asc, env_time desc\n| summarize arg_max(env_time,*) by resultType, source\n| summarize arg_min(orderPriority,*) by correlationId\n| extend ColumnsSearched = dynamic_to_json(bag_pack_columns(activityId, clientRequestId, clientSessionId, correlationId, executionId, parentExecutionId, requestId, serviceRequestId))\n| project env_time = env_time, correlationId, serviceRequestId, clientSessionId, clientRequestId, principalObjectId , activityName, operationType , activityVector, resultType, source, sourceTable, ColumnsSearched, DisplayPriority = 1);\nlet TraceEventsData = materialize (\nfind in (\n    cluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").TraceEvents,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").TraceEvents,\ncluster(\"https://crmasyncprodcus.kusto.windows.net\").database(\"CRMAnalytics\").TraceEvents,\ncluster(\"https://crmasyncprodweu.kusto.windows.net\").database(\"CRMAnalytics\").TraceEvents\n    )\n    where (env_time between (_startTime.. _endTime))\n    and (organizationId in (cllgetorginfo) or OrganizationId in (cllgetorginfo))\n    and (ActivityId =~ _correlationId\n       or activityId =~ _correlationId\n       or clientRequestId =~ _correlationId\n       or clientSessionId =~ _correlationId\n       or correlationId =~ _correlationId\n       or serviceRequestId =~ _correlationId)\n| extend source = iff(source_ contains \"async\", \"Async\", \"Web\"), sourceTable = \"TraceEvents\"\n| extend orderPriority = case(traceLevel == \"Error\", 1, traceLevel == \"Warning\", 2, traceLevel == \"Info\", 3, 4)\n| project env_time, source, sourceTable, traceLevel, activityId = coalesce(activityId,column_ifexists(\"ActivityId1\",\"\"),\"\"), clientRequestId, clientSessionId, correlationId, serviceRequestId, orderPriority, principalObjectId, activityName, activityVector\n| order by orderPriority asc, env_time desc\n| summarize arg_max(env_time, *) by traceLevel, source\n| summarize arg_min(orderPriority, *) by correlationId\n| extend ColumnsSearched = dynamic_to_json(bag_pack_columns(activityId, clientRequestId, clientSessionId, correlationId, serviceRequestId))\n| project env_time = env_time, correlationId, serviceRequestId, clientSessionId, clientRequestId, principalObjectId , activityName, operationType = \"\", activityVector, resultType = traceLevel, source, sourceTable, ColumnsSearched, DisplayPriority = 3);\nlet CommunicationEventsData = materialize(\nfind in (\n    cluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").CommunicationEvents,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").CommunicationEvents,\ncluster(\"https://crmasyncprodcus.kusto.windows.net\").database(\"CRMAnalytics\").CommunicationEvents,\ncluster(\"https://crmasyncprodweu.kusto.windows.net\").database(\"CRMAnalytics\").CommunicationEvents\n    )\n    where (env_time between (_startTime.. _endTime))\n    and organizationId in (cllgetorginfo)\n    and (ActivityId =~ _correlationId\n       or activityId =~ _correlationId\n       or clientRequestId =~ _correlationId\n       or clientSessionId =~ _correlationId\n       or correlationId =~ _correlationId\n       or serviceRequestId =~ _correlationId)\n| extend source = iff(source_ contains \"async\", \"Async\", \"Web\"), sourceTable = \"CommunicationEvents\"\n| extend orderPriority = case(resultType == \"Failure\", 1, resultType == \"SuccessDespiteError\", 2, resultType == \"Success\", 3, 4)\n| project env_time, source, sourceTable, resultType, activityId = coalesce(activityId,column_ifexists(\"ActivityId1\",\"\"),\"\"), clientRequestId, clientSessionId, correlationId, serviceRequestId, orderPriority, principalObjectId, activityName, operationType, activityVector\n| order by orderPriority asc, env_time desc\n| summarize arg_max(env_time, *) by resultType, source\n| summarize arg_min(orderPriority,*) by correlationId\n| extend ColumnsSearched = dynamic_to_json(bag_pack_columns(activityId, clientRequestId, clientSessionId, correlationId, serviceRequestId))\n| project env_time = env_time, correlationId, serviceRequestId, clientSessionId, clientRequestId, principalObjectId , activityName, operationType, activityVector, resultType, source, sourceTable, ColumnsSearched, DisplayPriority = 4);\nlet SandboxExecutionData = materialize(\nfind in (\n    cluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").SandboxExecution,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").SandboxExecution,\ncluster(\"https://crmasyncprodcus.kusto.windows.net\").database(\"CRMAnalytics\").SandboxExecution,\ncluster(\"https://crmasyncprodweu.kusto.windows.net\").database(\"CRMAnalytics\").SandboxExecution\n    )\n    where TIMESTAMP between (_startTime.. _endTime)\n    and organizationId in (cllgetorginfo)\n    and (ActivityId  =~ _correlationId\n       or executionId =~ _correlationId\n       or parentExecutionId =~ _correlationId\n       or requestId =~ _correlationId\n       or trackingId =~ _correlationId)\n| extend source = iff(source_ contains \"async\", \"Async\", \"Web\"), sourceTable = \"SandboxExecution\"\n| project TIMESTAMP, source, sourceTable, passed, ActivityId, executionId, parentExecutionId, requestId, trackingId\n| order by passed asc, TIMESTAMP desc\n| summarize arg_max(TIMESTAMP,*) by passed, requestId\n| extend ColumnsSearched = dynamic_to_json(bag_pack_columns(ActivityId, executionId, parentExecutionId, requestId, trackingId))\n| project env_time = TIMESTAMP, correlationId = \"\", serviceRequestId = requestId, clientSessionId = \"\", clientRequestId = \"\", principalObjectId = \"\" , activityName=\"\", operationType = \"\", activityVector = \"\", resultType = tostring(passed), source, sourceTable, ColumnsSearched, DisplayPriority = 6);\nlet IslandsSandboxExecutionData = materialize (\nunion\ncluster(\"https://fdislandsas.southeastasia.kusto.windows.net\").database(\"CAPAnalytics\").OperationEvents,\ncluster(\"https://fdislandsau.australiaeast.kusto.windows.net\").database(\"CAPAnalytics\").OperationEvents,\ncluster(\"https://fdislandseu.westeurope.kusto.windows.net\").database(\"CAPAnalytics\").OperationEvents,\ncluster(\"https://fdislandsus.centralus.kusto.windows.net\").database(\"CAPAnalytics\").OperationEvents,\ncluster(\"https://fdislandsbr.brazilsouth.kusto.windows.net\").database(\"CAPAnalytics\").OperationEvents,\ncluster(\"https://fdislandsin.centralindia.kusto.windows.net\").database(\"CAPAnalytics\").OperationEvents,\ncluster(\"https://fdislandsfr.francecentral.kusto.windows.net\").database(\"CAPAnalytics\").OperationEvents,\ncluster(\"https://fdislandsjp.japaneast.kusto.windows.net\").database(\"CAPAnalytics\").OperationEvents,\ncluster(\"https://fdislandsuk.uksouth.kusto.windows.net\").database(\"CAPAnalytics\").OperationEvents,\ncluster(\"https://fdislandsza.southafricanorth.kusto.windows.net\").database(\"CAPAnalytics\").OperationEvents,\ncluster(\"https://fdislandsde.germanywestcentral.kusto.windows.net\").database(\"CAPAnalytics\").OperationEvents,\ncluster(\"https://fdislandsae.uaenorth.kusto.windows.net\").database(\"CAPAnalytics\").OperationEvents\n|  where env_time between (_startTime.. _endTime)\n| where organizationId in (cllgetorginfo)\n| where activityName == \"SandboxFabricHost.HostExecute\"\n| where correlationId =~ _correlationId\n     or activityId =~ _correlationId\n     or serviceRequestId =~ _correlationId\n     or clientSessionId =~ _correlationId\n     or clientRequestId =~ _correlationId\n     or customDimensions has _correlationId\n| extend cd = parse_json(customDimensions)\n| extend perceivedPassed = tostring(cd.perceivedPassed),\n         executionId = tostring(cd.executionId),\n         requestId = tostring(cd.requestId),\n         trackingId = tostring(cd.trackingId)\n| extend source = \"IslandsSandboxExecution\", sourceTable = \"OperationEvents\"\n| project env_time, source, sourceTable, activityName, perceivedPassed, activityId, serviceRequestId, correlationId, executionId, requestId, trackingId, customDimensions, clientSessionId, clientRequestId, principalObjectId, operationType, activityVector\n| order by perceivedPassed asc, env_time desc\n| summarize arg_max(env_time,*) by perceivedPassed\n| summarize arg_max(perceivedPassed,*) by correlationId\n| extend ColumnsSearched = dynamic_to_json(bag_pack_columns(correlationId, activityId, serviceRequestId, executionId, requestId, trackingId, clientSessionId, clientRequestId))\n| project env_time = env_time, correlationId, serviceRequestId, clientSessionId, clientRequestId, principalObjectId , activityName, operationType, activityVector, resultType = perceivedPassed, source, sourceTable, ColumnsSearched, DisplayPriority = 2);\nunion isfuzzy=true kind=outer \nWebRequestStatisticsData, OperationEventsData, TraceEventsData, CommunicationEventsData, SandboxExecutionData, IslandsSandboxExecutionData\n| order by DisplayPriority asc"
+        "text": "let cllgetorginfo = (\n['Retrieve org id']\n);\nlet _correlationId = corrid;\nlet WebRequestStatisticsData = materialize(\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").WebRequestStatistics,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").WebRequestStatistics\n| where TIMESTAMP between (_startTime.. _endTime)\n    and OrganizationId in (cllgetorginfo)\n    and (* =~ _correlationId or Headers has _correlationId)\n| extend source = \"Web\", sourceTable = \"WebRequestStatistics\"\n| project TIMESTAMP, HttpStatus, OperationName, ActivityId, ClientActivityId, ClientRequestId, ClientSessionId, requestId, serverResponseId, WebRequestStatsCorrelationId, Headers, source, sourceTable\n| summarize arg_max(TIMESTAMP,*) by ClientActivityId\n| extend ColumnsSearched = dynamic_to_json(bag_pack_columns(ActivityId, ClientActivityId, ClientRequestId, ClientSessionId, requestId, serverResponseId, WebRequestStatsCorrelationId))\n| project env_time = TIMESTAMP,resultType = HttpStatus, correlationId = ClientActivityId, serviceRequestId = serverResponseId, clientSessionId = ClientSessionId, clientRequestId = ClientRequestId, principalObjectId = \"\", activityName = \"\", operationType = \"\", activityVector = \"\",  source, sourceTable, ColumnsSearched, DisplayPriority = 5);\nlet OperationEventsData = materialize (\nfind in (\n    cluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OperationEvents,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OperationEvents,\ncluster(\"https://crmasyncprodcus.kusto.windows.net\").database(\"CRMAnalytics\").OperationEvents,\ncluster(\"https://crmasyncprodweu.kusto.windows.net\").database(\"CRMAnalytics\").OperationEvents\n    )\n    where (env_time between (_startTime.. _endTime))\n      and (organizationId in (cllgetorginfo) or OrganizationId in (cllgetorginfo))\n      and (* =~ _correlationId or customDimensions has _correlationId)\n| extend source = iff(source_ contains \"async\", \"Async\", \"Web\"), sourceTable = \"OperationEvents\"\n| extend orderPriority = case(resultType == \"Failure\", 1, resultType == \"SuccessDespiteError\", 2, resultType == \"Success\", 3, 4)\n| project env_time, resultType, source, sourceTable, activityId = coalesce(activityId,column_ifexists(\"ActivityId1\",\"\"),\"\"), clientRequestId, clientSessionId, correlationId, executionId, parentExecutionId, requestId, serviceRequestId, orderPriority, principalObjectId, activityName, activityVector, operationType\n| order by orderPriority asc, env_time desc\n| summarize arg_max(env_time,*) by resultType, source\n| summarize arg_min(orderPriority,*) by correlationId\n| extend ColumnsSearched = dynamic_to_json(bag_pack_columns(activityId, clientRequestId, clientSessionId, correlationId, executionId, parentExecutionId, requestId, serviceRequestId))\n| project env_time = env_time, resultType, correlationId, serviceRequestId, clientSessionId, clientRequestId, principalObjectId , activityName, operationType , activityVector, source, sourceTable, ColumnsSearched, DisplayPriority = 1);\nlet TraceEventsData = materialize (\nfind in (\n    cluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").TraceEvents,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").TraceEvents,\ncluster(\"https://crmasyncprodcus.kusto.windows.net\").database(\"CRMAnalytics\").TraceEvents,\ncluster(\"https://crmasyncprodweu.kusto.windows.net\").database(\"CRMAnalytics\").TraceEvents\n    )\n    where (env_time between (_startTime.. _endTime))\n    and (organizationId in (cllgetorginfo) or OrganizationId in (cllgetorginfo))\n    and * =~ _correlationId\n| extend source = iff(source_ contains \"async\", \"Async\", \"Web\"), sourceTable = \"TraceEvents\"\n| extend orderPriority = case(traceLevel == \"Error\", 1, traceLevel == \"Warning\", 2, traceLevel == \"Info\", 3, 4)\n| project env_time, sourceTable, source, traceLevel, activityId = coalesce(activityId,column_ifexists(\"ActivityId1\",\"\"),\"\"), clientRequestId, clientSessionId, correlationId, serviceRequestId, orderPriority, principalObjectId, activityName, activityVector\n| order by orderPriority asc, env_time desc\n| summarize arg_max(env_time, *) by traceLevel, source\n| summarize arg_min(orderPriority, *) by correlationId\n| extend ColumnsSearched = dynamic_to_json(bag_pack_columns(activityId, clientRequestId, clientSessionId, correlationId, serviceRequestId))\n| project env_time = env_time,resultType = traceLevel,sourceTable,  correlationId, serviceRequestId, clientSessionId, clientRequestId, principalObjectId , activityName, operationType = \"\", activityVector,  source, ColumnsSearched, DisplayPriority = 3);\nlet CommunicationEventsData = materialize(\nfind in (\n  cluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").CommunicationEvents,\n  cluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").CommunicationEvents,\n  cluster(\"https://crmasyncprodcus.kusto.windows.net\").database(\"CRMAnalytics\").CommunicationEvents,\n  cluster(\"https://crmasyncprodweu.kusto.windows.net\").database(\"CRMAnalytics\").CommunicationEvents\n    )\n    where (env_time between (_startTime.. _endTime))\n    and organizationId in (cllgetorginfo)\n    and * =~ _correlationId\n| extend source = iff(source_ contains \"async\", \"Async\", \"Web\"), sourceTable = \"CommunicationEvents\"\n| extend orderPriority = case(resultType == \"Failure\", 1, resultType == \"SuccessDespiteError\", 2, resultType == \"Success\", 3, 4)\n| project env_time,resultType, sourceTable,source,   activityId = coalesce(activityId,column_ifexists(\"ActivityId1\",\"\"),\"\"), clientRequestId, clientSessionId, correlationId, serviceRequestId, orderPriority, principalObjectId, activityName, operationType, activityVector\n| order by orderPriority asc, env_time desc\n| summarize arg_max(env_time, *) by resultType, source\n| summarize arg_min(orderPriority,*) by correlationId\n| extend ColumnsSearched = dynamic_to_json(bag_pack_columns(activityId, clientRequestId, clientSessionId, correlationId, serviceRequestId))\n| project env_time = env_time, resultType,sourceTable,  correlationId, serviceRequestId, clientSessionId, clientRequestId, principalObjectId , activityName, operationType, activityVector, source, ColumnsSearched, DisplayPriority = 4);\nlet SandboxExecutionData = materialize(\nfind in (\n    cluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").SandboxExecution,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").SandboxExecution,\ncluster(\"https://crmasyncprodcus.kusto.windows.net\").database(\"CRMAnalytics\").SandboxExecution,\ncluster(\"https://crmasyncprodweu.kusto.windows.net\").database(\"CRMAnalytics\").SandboxExecution\n    )\n    where TIMESTAMP between (_startTime.. _endTime)\n    and organizationId in (cllgetorginfo)\n    and *  =~ _correlationId\n| extend source = iff(source_ contains \"async\", \"Async\", \"Web\"), sourceTable = \"SandboxExecution\"\n| project TIMESTAMP, source, sourceTable, passed, ActivityId, executionId, parentExecutionId, requestId, trackingId\n| order by passed asc, TIMESTAMP desc\n| summarize arg_max(TIMESTAMP,*) by passed, requestId\n| extend ColumnsSearched = dynamic_to_json(bag_pack_columns(ActivityId, executionId, parentExecutionId, requestId, trackingId))\n| project env_time = TIMESTAMP,resultType = tostring(passed),sourceTable,  correlationId = \"\", serviceRequestId = requestId, clientSessionId = \"\", clientRequestId = \"\", principalObjectId = \"\" , activityName=\"\", operationType = \"\", activityVector = \"\",  source, ColumnsSearched, DisplayPriority = 6);\nlet IslandsSandboxExecutionData = materialize (\nunion\ncluster(\"https://fdislandsas.southeastasia.kusto.windows.net\").database(\"CAPAnalytics\").OperationEvents,\ncluster(\"https://fdislandsau.australiaeast.kusto.windows.net\").database(\"CAPAnalytics\").OperationEvents,\ncluster(\"https://fdislandseu.westeurope.kusto.windows.net\").database(\"CAPAnalytics\").OperationEvents,\ncluster(\"https://fdislandsus.centralus.kusto.windows.net\").database(\"CAPAnalytics\").OperationEvents,\ncluster(\"https://fdislandsbr.brazilsouth.kusto.windows.net\").database(\"CAPAnalytics\").OperationEvents,\ncluster(\"https://fdislandsin.centralindia.kusto.windows.net\").database(\"CAPAnalytics\").OperationEvents,\ncluster(\"https://fdislandsfr.francecentral.kusto.windows.net\").database(\"CAPAnalytics\").OperationEvents,\ncluster(\"https://fdislandsjp.japaneast.kusto.windows.net\").database(\"CAPAnalytics\").OperationEvents,\ncluster(\"https://fdislandsuk.uksouth.kusto.windows.net\").database(\"CAPAnalytics\").OperationEvents,\ncluster(\"https://fdislandsza.southafricanorth.kusto.windows.net\").database(\"CAPAnalytics\").OperationEvents,\ncluster(\"https://fdislandsde.germanywestcentral.kusto.windows.net\").database(\"CAPAnalytics\").OperationEvents,\ncluster(\"https://fdislandsae.uaenorth.kusto.windows.net\").database(\"CAPAnalytics\").OperationEvents\n|  where env_time between (_startTime.. _endTime)\n| where organizationId in (cllgetorginfo)\n| where activityName == \"SandboxFabricHost.HostExecute\"\n| where * =~ _correlationId\n| extend cd = parse_json(customDimensions)\n| extend perceivedPassed = tostring(cd.perceivedPassed),\n         executionId = tostring(cd.executionId),\n         requestId = tostring(cd.requestId),\n         trackingId = tostring(cd.trackingId)\n| extend source = \"IslandsSandboxExecution\", sourceTable = \"OperationEvents\"\n| project env_time, source, sourceTable, activityName, perceivedPassed, activityId, serviceRequestId, correlationId, executionId, requestId, trackingId, customDimensions, clientSessionId, clientRequestId, principalObjectId, operationType, activityVector\n| order by perceivedPassed asc, env_time desc\n| summarize arg_max(env_time,*) by perceivedPassed\n| summarize arg_max(perceivedPassed,*) by correlationId\n| extend ColumnsSearched = dynamic_to_json(bag_pack_columns(correlationId, activityId, serviceRequestId, executionId, requestId, trackingId, clientSessionId, clientRequestId))\n| project env_time = env_time,resultType = perceivedPassed, sourceTable,   correlationId, serviceRequestId, clientSessionId, clientRequestId, principalObjectId , activityName, operationType, activityVector, source,ColumnsSearched, DisplayPriority = 2);\nunion isfuzzy=true kind=outer \nWebRequestStatisticsData, OperationEventsData, TraceEventsData, CommunicationEventsData, SandboxExecutionData, IslandsSandboxExecutionData\n| project env_time, resultType, sourceTable, source, correlationId, activityName, serviceRequestId, clientSessionId, clientRequestId, principalObjectId, operationType, ColumnsSearched, DisplayPriority\n| order by DisplayPriority asc"
       },
       "visualOptions": {
         "table__enableRenderLinks": true,
@@ -4012,7 +4012,7 @@
           "orgid",
           "sqlscrname"
         ],
-        "text": "let cllorginfo=(\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrgId == orgid or isempty(orgid)\n| where Geo == geo or isempty(geo)\n| where BAPEnvironmentId == envid or isempty(envid)\n| extend URL = case(\nGeo=='NA', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| where DomainName == domainname or URL startswith domainname or URL startswith substring(domainname, 0, indexof(domainname, \".com\") + 4) or isempty(domainname)\n| project OrgId\n| take 1\n);\nOperationEvents\n| where activityName == 'DAMS.AutoTuneExecuteScriptActivity'\n| where organizationId in (cllorginfo)\n| where env_time between (_startTime.._endTime)\n| where customDimensions has jvisguid or isempty(jvisguid)\n| where customDimensions has sqlscrname or isempty(sqlscrname)\n| extend cd = parse_json(customDimensions)\n| project env_time, correlationId, serviceRequestId, organizationId, ScriptResult = tostring(cd.ScriptResult), ScriptOutput = tostring(cd.ScriptOutput), customDimensions"
+        "text": "let cllorginfo=(\nunion \ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OrganizationDetails\n| where TIMESTAMP between (_startTime.._endTime)\n| where OrgId == orgid or isempty(orgid)\n| where Geo == geo or isempty(geo)\n| where BAPEnvironmentId == envid or isempty(envid)\n| extend URL = case(\nGeo=='NA', strcat('https://', DomainName, '.crm.dynamics.com'),\nGeo=='LATAM/SAM', strcat('https://', DomainName, '.crm2.dynamics.com'),\nGeo=='CAN', strcat('https://', DomainName, '.crm3.dynamics.com'),\nGeo=='EMEA', strcat('https://', DomainName, '.crm4.dynamics.com'),\nGeo=='APAC', strcat('https://', DomainName, '.crm5.dynamics.com'),\nGeo=='OCE', strcat('https://', DomainName, '.crm6.dynamics.com'),\nGeo=='GER', strcat('https://', DomainName, '.crm16.dynamics.com'),\nGeo=='JPN', strcat('https://', DomainName, '.crm7.dynamics.com'),\nGeo=='IND', strcat('https://', DomainName, '.crm8.dynamics.com'),\nGeo=='UK', strcat('https://', DomainName, '.crm11.dynamics.com'),\nstrcat('https://', DomainName, '.crm15.dynamics.com')\n)\n| where DomainName == domainname or URL startswith domainname or URL startswith substring(domainname, 0, indexof(domainname, \".com\") + 4) or isempty(domainname)\n| project OrgId\n| take 1\n);\nOperationEvents\n| where activityName == 'DAMS.AutoTuneExecuteScriptActivity'\n| where organizationId in (cllorginfo)\n| where env_time between (_startTime.._endTime)\n| where customDimensions has jvisguid or isempty(jvisguid)\n| where customDimensions contains sqlscrname or isempty(sqlscrname)\n| extend cd = parse_json(customDimensions)\n| project env_time, correlationId, serviceRequestId, organizationId, ScriptResult = strcat(tostring(cd.ScriptResult),resultType), durationMs, eventType, activityKind, ScriptOutput = tostring(cd.ScriptOutput), customDimensions"
       },
       "visualOptions": {
         "table__enableRenderLinks": true,
@@ -4102,28 +4102,30 @@
     },
     {
       "id": "7fa857bd-edd9-43f4-8815-1f3d5eecc954",
-      "title": "Failure analysis (APAC, NA orgs pick crmasyncprodcus; EMEA orgs pick crmasyncprodweu)",
+      "title": "TraceEvents by correlation ID",
       "description": "Require:\n- Organization ID\n- Correlation ID",
       "visualType": "table",
       "pageId": "2aba6666-45d2-4f33-97f4-1df4d6e6fe93",
       "layout": {
         "x": 0,
-        "y": 33,
+        "y": 43,
         "width": 24,
         "height": 10
       },
       "query": {
         "kind": "inline",
         "dataSource": {
-          "kind": "parameter",
-          "parameterId": "37fdfc20-4b5e-4fac-b23c-12745c587f35"
+          "kind": "inline",
+          "dataSourceId": "5bd9fbcb-4e26-41b9-84d7-335352f64c6a"
         },
         "usedVariables": [
+          "Retrieve org id",
           "_endTime",
           "_startTime",
-          "corrid"
+          "corrid",
+          "envid"
         ],
-        "text": "TraceEvents\n    | where env_time between(_startTime .. _endTime)\n    | where correlationId == corrid\n    | project env_time, env_cloud_roleInstance, activityVector, activityName, traceLevel, message, customDimensions\n    | extend cd = parse_json(customDimensions)\n    | order by activityVector asc\n    | limit 5000"
+        "text": "let cllgetorginfo = (\n['Retrieve org id']\n);\nunion\ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").TraceEvents,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").TraceEvents,\ncluster(\"https://crmasyncprodcus.kusto.windows.net\").database(\"CRMAnalytics\").TraceEvents,\ncluster(\"https://crmasyncprodweu.kusto.windows.net\").database(\"CRMAnalytics\").TraceEvents\n    | where env_time between(_startTime .. _endTime)\n    | where organizationId in (cllgetorginfo)\n    | where correlationId == corrid\n    | summarize by env_time, activityName, traceLevel, message, applicationName, clientRequestId, activityId, clientSessionId, clientApplicationId, customDimensions\n    | project env_time, activityName, traceLevel, message, applicationName, clientRequestId, activityId, clientSessionId, clientApplicationId, customDimensions\n    | order by envid asc\n    | limit 500"
       },
       "visualOptions": {
         "table__enableRenderLinks": true,
@@ -4310,7 +4312,7 @@
         "x": 18,
         "y": 0,
         "width": 6,
-        "height": 4
+        "height": 3
       },
       "query": {
         "kind": "inline",
@@ -4446,6 +4448,144 @@
       },
       "visualOptions": {
         "xColumn": null
+      }
+    },
+    {
+      "id": "3b7abcb7-68dc-436b-9ba8-8d4a15132ba1",
+      "title": "OperationEvents by correlation ID",
+      "description": "Require:\n- Organization ID\n- Correlation ID",
+      "visualType": "table",
+      "pageId": "2aba6666-45d2-4f33-97f4-1df4d6e6fe93",
+      "layout": {
+        "x": 0,
+        "y": 33,
+        "width": 24,
+        "height": 10
+      },
+      "query": {
+        "kind": "inline",
+        "dataSource": {
+          "kind": "inline",
+          "dataSourceId": "5bd9fbcb-4e26-41b9-84d7-335352f64c6a"
+        },
+        "usedVariables": [
+          "Retrieve org id",
+          "_endTime",
+          "_startTime",
+          "corrid"
+        ],
+        "text": "let cllgetorginfo = (\n['Retrieve org id']\n);\nunion\ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OperationEvents,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OperationEvents,\ncluster(\"https://crmasyncprodcus.kusto.windows.net\").database(\"CRMAnalytics\").OperationEvents,\ncluster(\"https://crmasyncprodweu.kusto.windows.net\").database(\"CRMAnalytics\").OperationEvents\n    | where env_time between(_startTime .. _endTime)\n    | where organizationId in (cllgetorginfo)\n    | where correlationId == corrid\n    | summarize by env_time, activityName, operationType, resultType,serviceName, applicationName, clientRequestId, activityId, clientSessionId, clientApplicationId, customDimensions\n    | project env_time, activityName, operationType, resultType,serviceName, applicationName, clientRequestId, activityId, clientSessionId, clientApplicationId, customDimensions\n    | order by env_time asc\n    | limit 500"
+      },
+      "visualOptions": {
+        "table__enableRenderLinks": true,
+        "colorRules": [
+          
+        ],
+        "colorRulesDisabled": true,
+        "colorStyle": "light",
+        "crossFilterDisabled": false,
+        "drillthroughDisabled": false,
+        "crossFilter": [
+          
+        ],
+        "drillthrough": [
+          
+        ],
+        "table__renderLinks": [
+          
+        ]
+      }
+    },
+    {
+      "id": "ec7f6e7e-2838-414f-83c6-65cceafdc504",
+      "title": "Plugin execution log by correlation ID",
+      "description": "Require:\n- Organization ID\n- Correlation ID",
+      "visualType": "table",
+      "pageId": "2aba6666-45d2-4f33-97f4-1df4d6e6fe93",
+      "layout": {
+        "x": 0,
+        "y": 53,
+        "width": 24,
+        "height": 10
+      },
+      "query": {
+        "kind": "inline",
+        "dataSource": {
+          "kind": "inline",
+          "dataSourceId": "5bd9fbcb-4e26-41b9-84d7-335352f64c6a"
+        },
+        "usedVariables": [
+          "Retrieve org id",
+          "_endTime",
+          "_startTime",
+          "corrid"
+        ],
+        "text": "let cllgetorginfo = (\n['Retrieve org id']\n);\nunion\ncluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").OperationEvents,\ncluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").OperationEvents,\ncluster(\"https://crmasyncprodcus.kusto.windows.net\").database(\"CRMAnalytics\").OperationEvents,\ncluster(\"https://crmasyncprodweu.kusto.windows.net\").database(\"CRMAnalytics\").OperationEvents\n| where env_time  between(_startTime .. _endTime)\n| where correlationId == corrid\n| where organizationId in (cllgetorginfo)\n| where activityName in (\"Xrm.Sdk.OrganizationSdkRequestExecute\", \"Microsoft.Crm.Extensibility.PipelineStep\", \"SandboxExecution\")\n| extend cd = parse_json(customDimensions)\n| extend typeName = tostring(cd.typeName)\n| extend assemblyName = tostring(cd.assemblyName)\n| extend executionId = tostring(cd.executionId)\n| extend messageName = tostring(cd.messageName)\n| extend trackingId = tostring(cd.trackingId)\n| extend depth = tostring(cd.depth)\n| project  env_time, typeName,  messageName, executionId, trackingId, assemblyName, correlationId, resultType, activityId, eventName = activityName\n| join kind=leftouter ( \nunion\n// cluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").SandboxExecution,\n// cluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").SandboxExecution,\ncluster(\"https://crmasyncprodcus.kusto.windows.net\").database(\"CRMAnalytics\").SandboxExecution,\ncluster(\"https://crmasyncprodweu.kusto.windows.net\").database(\"CRMAnalytics\").SandboxExecution\n    | where PreciseTimeStamp between(_startTime .. _endTime)\n\t| where perceivedPassed != 2\n    | where organizationId in (cllgetorginfo)\n    | where requestId contains corrid\n    | extend ProcessId = iif(Role == 'SandboxProcessingService', tolong(workerProcessId), Pid)\n    | order by TIMESTAMP asc\n    | project env_time = TIMESTAMP, executionId, assemblyName, typeName, messageName, executionTime,\n    pluginExecuteOverheadMs, sdkCallbackOverheadMs, ActivityId, trackingId, requestId, exceptionSource\n    | limit 5000\n    ) on $left.executionId == $right.executionId\n| project TIMESTAMP = env_time, messageName, assemblyName, typeName, trackingId,\nrequestId, activityId,  exceptionSource,  eventName\n| extend responsibleParty = case (typeName startswith \"Microsoft\", \"MicrosoftOwned\",\n                             isempty(typeName), \"SystemEvent\",\n                             typeName has \"ActivityFeeds\", \"MicrosoftOwned\",\n                             typeName has \"FieldService\", \"MicrosoftOwned\",\n                             typeName has \"Adxstudio.Xrm\", \"MicrosoftOwned\",\n                             \"CustomerOwned\")"
+      },
+      "visualOptions": {
+        "table__enableRenderLinks": true,
+        "colorRules": [
+          
+        ],
+        "colorRulesDisabled": true,
+        "colorStyle": "light",
+        "crossFilterDisabled": false,
+        "drillthroughDisabled": false,
+        "crossFilter": [
+          
+        ],
+        "drillthrough": [
+          
+        ],
+        "table__renderLinks": [
+          
+        ]
+      }
+    },
+    {
+      "id": "a110f013-6ce0-4a11-83ba-ab90498b37fc",
+      "title": "Plugin timeline log by tracking ID",
+      "description": "Require:\n- Organization ID\n- Plugin Tracking ID",
+      "visualType": "table",
+      "pageId": "2aba6666-45d2-4f33-97f4-1df4d6e6fe93",
+      "layout": {
+        "x": 0,
+        "y": 63,
+        "width": 24,
+        "height": 10
+      },
+      "query": {
+        "kind": "inline",
+        "dataSource": {
+          "kind": "inline",
+          "dataSourceId": "5bd9fbcb-4e26-41b9-84d7-335352f64c6a"
+        },
+        "usedVariables": [
+          "Retrieve org id",
+          "_endTime",
+          "_startTime",
+          "plgtrid"
+        ],
+        "text": "let cllgetorginfo = (\n['Retrieve org id']\n);\nlet TRACKINGID = plgtrid;\nlet SandboxEvents =\n  materialize(\n    find in (\n    cluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").SandboxExecution,\n    cluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").SandboxExecution,\n    cluster(\"https://crmasyncprodcus.kusto.windows.net\").database(\"CRMAnalytics\").SandboxExecution,\n    cluster(\"https://crmasyncprodweu.kusto.windows.net\").database(\"CRMAnalytics\").SandboxExecution\n    ) where TIMESTAMP between(_startTime .. _endTime)\n      and trackingId == TRACKINGID\n      and organizationId in (cllgetorginfo)\n      and component == \"Sandbox Client\"\n      project TIMESTAMP,  typeName,  passed, executionTime:real, exceptionDetails, requestId, ActivityId, parentExecutionId, executionId\n  );\nlet ListenerSuccessEvents =\n  materialize(\n    find in(\n    cluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").SandboxSdkListenerOperationSuccess,\n    cluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").SandboxSdkListenerOperationSuccess,\n    cluster(\"https://crmasyncprodcus.kusto.windows.net\").database(\"CRMAnalytics\").SandboxSdkListenerOperationSuccess,\n    cluster(\"https://crmasyncprodweu.kusto.windows.net\").database(\"CRMAnalytics\").SandboxSdkListenerOperationSuccess\n    ) where TIMESTAMP between(_startTime .. _endTime)\n      and trackingId == TRACKINGID\n      and organizationId in (cllgetorginfo)\n  );\nlet ListenerFailureEvents =\n  materialize(\n    find in(\n    cluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").SandboxSdkListenerOperationFailure,\n    cluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").SandboxSdkListenerOperationFailure,\n    cluster(\"https://crmasyncprodcus.kusto.windows.net\").database(\"CRMAnalytics\").SandboxSdkListenerOperationFailure,\n    cluster(\"https://crmasyncprodweu.kusto.windows.net\").database(\"CRMAnalytics\").SandboxSdkListenerOperationFailure\n    ) where TIMESTAMP between(_startTime .. _endTime)\n      and trackingId == TRACKINGID\n      and organizationId in (cllgetorginfo)\n      project TIMESTAMP, executionTime:real,  operation, exceptionMessage, requestId, ActivityId, parentExecutionId, executionId\n  );\nlet QosEvents =\n  materialize(\n    find in (\n    cluster(\"https://crmanacus.kusto.windows.net\").database(\"CRMAnalytics\").ExtendedQoSEvent,\n    cluster(\"https://crmanaweu.kusto.windows.net\").database(\"CRMAnalytics\").ExtendedQoSEvent,\n    cluster(\"https://crmasyncprodcus.kusto.windows.net\").database(\"CRMAnalytics\").ExtendedQoSEvent,\n    cluster(\"https://crmasyncprodweu.kusto.windows.net\").database(\"CRMAnalytics\").ExtendedQoSEvent\n    ) where env_time between(_startTime .. _endTime)\n      and resourceId in (cllgetorginfo)\n      and resultDescription contains TRACKINGID\n  );\nSandboxEvents\n| extend EventSource = \"Sandbox\", Event = \"Start\"\n| extend EventTimestamp = todatetime(TIMESTAMP - todatetime(executionTime*10000))\n| extend DurationMs = todouble(0)\n| project EventTimestamp, EventSource, Event, operation = typeName,  passed, DurationMs, exceptionDetails, requestId, ActivityId, parentExecutionId, executionId\n| union (\n  SandboxEvents\n  | extend EventSource = \"Sandbox\", Event = \"End\"\n  | extend DurationMs = todouble(executionTime)\n  | project EventTimestamp = TIMESTAMP, EventSource, Event, operation = typeName, passed, DurationMs, exceptionDetails, requestId, ActivityId, parentExecutionId, executionId\n) | union (\n  ListenerSuccessEvents\n  | extend EventSource = \"SdkListener\", Event = \"Start\"\n  | extend EventTimestamp = todatetime(TIMESTAMP - todatetime(todouble(executionTime)*10000))\n  | extend DurationMs = todouble(0)\n  | project EventTimestamp,  EventSource, Event, operation, passed = true, DurationMs, requestId, ActivityId, parentExecutionId, executionId\n  )\n| union (\n  ListenerSuccessEvents\n  | extend EventSource = \"SdkListener\", Event = \"End\"\n  | extend EventTimestamp = todatetime(TIMESTAMP - todatetime(0))\n  | extend DurationMs = todouble(executionTime)\n  | project EventTimestamp, EventSource, Event, operation, passed = true, DurationMs, requestId, ActivityId, parentExecutionId, executionId\n  )\n| union (\n  ListenerFailureEvents\n  | extend EventSource = \"SdkListener\", Event = \"Failed-Start\"\n  | extend EventTimestamp = todatetime(TIMESTAMP - todatetime(todouble(executionTime)*10000))\n  | extend DurationMs = todouble(0)\n  | project EventTimestamp, EventSource, Event, operation, passed = false, DurationMs, exceptionDetails = exceptionMessage, requestId, ActivityId, parentExecutionId, executionId\n  )\n| union (\n  ListenerFailureEvents\n  | extend EventSource = \"SdkListener\", Event = \"Failed-End\"\n  | extend DurationMs = todouble(executionTime)\n  | extend EventTimestamp = todatetime(TIMESTAMP - todatetime(0))\n  | project EventTimestamp, EventSource, Event, operation, passed = false, DurationMs, exceptionDetails = exceptionMessage, requestId, ActivityId, parentExecutionId, executionId\n  )\n| union (\n  QosEvents\n  | parse resultDescription with * \"RequestID: \" requestId \"\\nCorrelation Id: \" trackingId \"\\nCorrelation Depth: \" depth\n  | where trackingId == TRACKINGID\n  | extend EventSource = \"QOS\", Event = \"Start\"\n  | extend EventTimestamp = todatetime(env_time - todatetime(todouble(durationMs)*10000))\n  | extend passed = (resultType == \"Success\")\n  | extend DurationMs = todouble(0)\n  | parse resultDescription with * \"RequestID: \" requestId \"\\nCorrelation Id: \" trackingId \"\\nCorrelation Depth: \" cd \"\\nClient Type: \" clientType \"\\nSession Id: \" sessionId \"\\nEntity Type: \" entityLogicalName\n  | extend operation = strcat(operationName, \"(\",  entityLogicalName, \")\")\n  | project EventTimestamp,EventSource, Event, operation, passed, DurationMs, requestId\n  )\n| union (\n  QosEvents\n  | parse resultDescription with * \"RequestID: \" requestId \"\\nCorrelation Id: \" trackingId \"\\nCorrelation Depth: \" depth\n  | where trackingId == TRACKINGID\n  | extend EventSource = \"QOS\", Event = \"End\"\n  | extend passed = (resultType == \"Success\")\n  | extend DurationMs = todouble(durationMs)\n  | parse resultDescription with * \"RequestID: \" requestId \"\\nCorrelation Id: \" trackingId \"\\nCorrelation Depth: \" cd \"\\nClient Type: \" clientType \"\\nSession Id: \" sessionId \"\\nEntity Type: \" entityLogicalName\n  | extend operation = strcat(operationName, \"(\",  entityLogicalName, \")\")\n  | project EventTimestamp = env_time,  EventSource, Event, operation, passed, DurationMs, requestId\n)\n| order by EventTimestamp asc"
+      },
+      "visualOptions": {
+        "table__enableRenderLinks": true,
+        "colorRules": [
+          
+        ],
+        "colorRulesDisabled": true,
+        "colorStyle": "light",
+        "crossFilterDisabled": false,
+        "drillthroughDisabled": false,
+        "crossFilter": [
+          
+        ],
+        "drillthrough": [
+          
+        ],
+        "table__renderLinks": [
+          
+        ]
       }
     }
   ],
@@ -5402,8 +5542,7 @@
         "kind": "selection",
         "pageIds": [
           "bcea7fec-63eb-4c0f-a4fc-54d7fbf8b8f0",
-          "407aa955-24cc-49ad-9624-1fb1840a460a",
-          "2aba6666-45d2-4f33-97f4-1df4d6e6fe93"
+          "407aa955-24cc-49ad-9624-1fb1840a460a"
         ]
       }
     },
@@ -5455,6 +5594,23 @@
         "kind": "selection",
         "pageIds": [
           "407aa955-24cc-49ad-9624-1fb1840a460a"
+        ]
+      }
+    },
+    {
+      "kind": "string",
+      "selectionType": "freetext",
+      "id": "0b6232ae-52a2-4827-b3a8-d09072caa565",
+      "displayName": "Plugin tracking ID",
+      "variableName": "plgtrid",
+      "description": "",
+      "defaultValue": {
+        "kind": "all"
+      },
+      "showOnPages": {
+        "kind": "selection",
+        "pageIds": [
+          "2aba6666-45d2-4f33-97f4-1df4d6e6fe93"
         ]
       }
     }
