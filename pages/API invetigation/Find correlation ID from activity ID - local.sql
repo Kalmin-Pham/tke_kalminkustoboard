@@ -1,0 +1,1 @@
+GetCorrelationIdFromActivityIdV1('WebRequestStatistics', activityid)
